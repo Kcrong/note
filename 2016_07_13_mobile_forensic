@@ -1,0 +1,204 @@
+mobile embeded forensic
+: computer, memory, multimedia(image, videa), netowrk forensics
+
+mobile forensice is the science of recovering "digital evidence (=artifact)"
+extract data in evidence : mobile
+statistics : growing usage of mobile devices ( + embeded in general )
+50 billion devices are connected
+  (smart, embeded ex) refregirator, automatic clean, etc..)
+
+why mobile device is challenging ? many operating system
+  ex) android, ios, tigen, web os, symbian, blackberry
+
+smart phone, smart tv, smart car (connected car)
+
+mobile phone can be hacking tools
+mobile phone as a vector of attack - ex) mobile banking, smishing, blackmailing
+
+interesting personal data -> evidence
+ex) extracting gps data (computer doesn't have it)
+  byod : access private network like company inter network
+originally in forensic : proof evidence
+in mobile forensice make report is important
+
+there are not unified tools because of flatform are various
+
+flight mode : why we don't shutdown the phone ? memory can be destroyed
+smudge attack : finger print in phone display
+
+general steps for forensic
+1. identification
+2. seizure
+3. acquisition
+4. authentication
+5. analysis - find artifact
+6. presentation/report
+7. preservation
+
+internal storage(+ROM) -> storage; heap(RAM) -> memory
+Our goal is to extract storage data or Ram data
+dump memory or storage, extract information
+
+logical copy file structrue
+dd - bitwise copy
+physical - copy all memory analyzed (JTAG)
+
+limited resources
+  limited logging, short lifespan of artifacts (heap)
+defferent structure
+  HW, FW, SW, FS , kernel or coy
+  no sh, nc, tcpdump
+access
+  no root access
+
+exploit in kernel or system library : it's difficult
+diver from manufacture it can be little bit easy
+application layer - malware : using application framework
+
+file system : android - different image (6 different images)
+
+access - bootloader or exploit
+acquisition : extract data from android phone : w/o privilege
+-> we will dump almost nothing
+-> able ; through bootloader or exploit (rooting)
+
+backup data -> google native backup function
+  -> recoverage : can extract some data
+
+//////////////////
+  모바일 디바이스 포렌식
+  디지털 포렌식 트랙에는 더 많은 강의(더 자세하게)
+  오늘 강의에서는 모바일 디바이스 포렌식을 전체적으로 본다
+
+  오늘은 뭘 하느냐
+  모바일 포렌식에 대한 소개
+  스마트폰의 자세한 소개(그리고 다른 임베디드 디바이스)
+
+  도구 사용법
+  새 도구 개발
+  모두의 수준이 다 다르니까 너무 무거운 건 할 수 없음
+  제너럴하게 가자
+  컴퓨터 포렌식과 임베디드 포렌식의 차이점
+
+  레퍼런스
+  Practical Mobile Forensics, The Mobile Application Hacker's Handbook, Embedded Android
+  포렌식의 중요한 부분은 악성코드 분석
+
+  모바일(임베디드) 포렌식 소개
+  정의 :
+  모바일 포렌식 = 포렌식적으로 정상적인 환경에서, 정상적인 방법을 이용해 모바일 디바이스에서 디지털 증거를 찾아내는 과학
+  통계:
+  모바일 사용 유저의 수는 나날이 증가하고 있음
+  모바일 OS 시장 점유율:
+  모바일 OS의 시장 점유율은 국가마다 다르지만, 대부분 안드로이드가 IOS와 양분하거나, 압도하거나, 비슷한 수준
+  임베디드 디바이스:
+  모바일은 임베디드 디바이스의 일부분일 뿐임(TV, 세탁기, 냉장고, 차량…)
+  모바일에 사용되던 것이 차량에도 사용되고 있음
+  안드로이드는 리눅스 기반이므로, 모두 코어 파트는 비슷함
+  임베디드 시스템에 사용되는 작은 칩이라도 포렌식 아티팩트를 가지고 있음
+  모바일 기기를 이용한 범죄:
+  위스콘신에서 일어난 성범죄, 2013년
+  임신한 여성을 포함한 가정에 일어난 범죄, 큰 피해를 입음
+  전화, SMS, 페이스북 메시지, 총과 스마트폰이 범죄에 사용됨
+  이 사건에서는 모바일 폰이 증거를 담은 매체였음
+  범죄에서의 모바일:
+     증거를 담은 매체
+     해킹 툴
+     공격 대상 으로 사용될 수 있음(뱅킹 악성코드, 봇넷, 스미싱, 악성 문자, 개인정보 탈취 등)
+  포렌식적인 관심에서는?
+     사진, 문자와 파일 시스템에서의 다른 증거들
+     로그, GPS, 와이파이에서 활동 추론
+     Point of interest
+     악성 코드의 능력: 데이터를 어디로 보내나
+  방법론:
+     ACPO 2007; Jansen and Ayers의 문서
+     NIST 2013; Ayers의 문서
+     (이것들 중요함)
+     이거 시험에 냈었음, 이번엔 장담 못함
+     Triage : 빠르게 처리해야 할 증거의 우선순위
+     Triage in MF http://forensics.umass.edu/pubs/Walls.usenixSecurity.2011.pdf
+     Soundness : 변경 없이, 쓰기 방지장치 이용
+     프로세스
+     비행기 모드 사용? 휘발성 메모리의 낭비를 막기 위해?
+
+     인식 - 압수 - 인증 - 분석 - 보고서 작성 - 보존
+
+  접근 : 용어
+  내부 저장소(+ROM) -> 저장소; heap (RAM) -> 메모리
+  우리의 목표는 저장소 데이터(비휘발성) 혹은 RAM 데이터(휘발성) 을 추출하는 것
+  수집 : 저장소/RAM 덤프 -> 복사
+  추출  : 정보 추출
+  접근 : 물리/논리적으로
+  논리적으로 : 파일 구조 복사( 파일 시스템 혹은 백업으로부터 )
+  물리적으로 : 비트 하나하나 복사 ( 부팅 중에 혹은 커널/HW 레벨에서 )
+  JTAG 등 이용
+
+  접근 : 도전(어려움)
+  한정된 자원
+     임베디드 시스템은 여러가지 문제로 시스템 스펙이 낮음
+     로그 보관 제한 -> 아티팩트 수명 짧음
+  각각 다른 구조
+     HW, FW, SW, FS
+     칩셋 - > cross-compling
+  제한된 도구
+     셸 없음, nc 없음, tcpdump 없음
+  제한된 접근
+     % root 안돼~
+  기종끼리 서로 다름
+  새로운 기능들
+  일반적인 프레임워크 제안 : 해커들에게 좋은 타겟
+
+  접근 : 기회
+  매우 많은 데이터
+
+  시스템 구조 : 부트로더
+     부팅 과정 :
+     BIOS
+     MBR
+     GRUB
+     커널
+     Init
+     Run-level Scripts
+  복구 모드로 부팅하는 것은 임베디드 디바이스에 접근하는 유용한 방법(Vidas et al., 2011)
+  예시 : iOS에서의 신뢰 연쇄
+  iOS에서는 부팅 과정마다 서명을 확인함 - 안전성 확보
+  시스템 구조 : 아키텍쳐
+  시스템 구조 : 프레임워크
+  저장소
+  w/o 권한
+     대부분 논리적 접근
+  부트로더를 통해서 :
+     파티션 추출, 재구성
+     부트로더는 보호되고 있을지도
+
+  권한 접근
+     루팅, 메모리의 비트대 비트 복사
+     보호된 구역의 논리적 습득
+
+  메모리
+  ??
+
+  습득 방법 : 안드로이드 실습
+  페이스북 링크에 있던거
+  /data/data에서 각 앱들을 볼 수 있음
+  데이터베이스 전부 쓸어보고 키워드(id, accounts) 찾아라
+  Forensic Analysis of Geodata in Android Smartphones
+
+  습득 방법 : 윈도우폰 8
+  Windows Phone 8 Forensic Artifacts, SANS 2015
+
+  Cross-compling을 위해서는 Toolchain을 알아야 한다
+     안드로이드나 안드로이드 커널을 다루려면 툴 체인에 대해 알아야 한다
+     구글링해라
+
+  IoT 악성코드 : 아직이긴 한데 멀진 않음
+
+  버그 헌팅 - > 루트 디바이스들의 취약점
+  컨설팅 -> 사고 대응, 디지털 포렌식 컨설팅, 전자증거개시(E-discovery)
+
+  직접 연습하기
+  Linux PC 혹은 Linux VM
+  Android SDK/N아
+  Genymotion emulator
+  LiME tool
+  Androguard
