@@ -1,0 +1,70 @@
+(앞에 정리한거 날라감)
+
+advanced ml ? 기계 학습
+  기계 학습과 통계는 조금 다른 부분이 존재함
+  machine learning 의 역사는 매우 김
+
+  인공 지능 ? 세가지 관점이 존재
+  1. 인식 - 사물에 대한 정보를 가지고 옴
+  2. 학습 - 사물의 패턴들을 학습함
+  3. 추론 - 어떤 것이 발생할지 추론함
+
+  neural network ? 인공 신경망의 역사는 오래됨
+  컴퓨터가 neuron 을 조작해 놓고, 자율적으로 조합해서 사람과 같이 알아서 조합, 추론함
+  사람의 뇌와 유사함 (뇌과학을 컴퓨터로 구현한 것 = 인공 신경망)
+  cnn, rnn 등 심층 신경망이 생기는 등 알고리즘도 정리가 됨
+  GPU base 의 컴퓨팅 파워를 이용
+
+  -> 앞으로 매우 중요한 부분
+
+  보안에도 반드시 적용될 기술 중 하나 - adaptive security : ml 을 이용
+  predict 가 가능해야함 -> 보안에서도 ml 을 통해 predict 를 시도함
+
+autonomous agent & things ? 개인화된 비서와 사물들
+  자동차 -> 자동운전, 자율 주행 ex) Tesler
+    최근 tesler 에서 자율 주행 사고가 남 -> 인식의 문제
+  고신뢰성 프로그램 ? 큰 오류나 알고리즘적 문제가 적어야함
+    자동화에도 고신뢰성 프로그램이 필요 -> 자율 주행 사고에도 신뢰성이 떨어지는 문제가 발생
+
+
+New IT Reality ? 개발에 대한 이야기, new it 라는 실현에 대한 이야기가 중점적
+adaptive security architecture ? 적용형 보안 아키텍쳐
+  context awareness - 상황 인식
+  automated threat reponse - 자동화를 통한 대응
+  automation out of the box - 박스를 벗어난 아키텍쳐 기반 보안 관제
+  integration ~
+
+  continuous monitoring and analytics ? 지속적인 모니터링과 분석을 요구
+  -> 보안 체계
+
+mesh app. service architecture ? 플랫폼에서 서비스 - 클라이언트에서 서버 개발할 수 있음
+  docker - 가상화 없이 가상화를 볼 수 있게 함
+  서버와 클라이언트의 구분이 많이 사라짐
+
+  service oriented architecture : SOA -> 의존도를 낮춤
+
+클라이언트랑 서버 프로그래밍을 주로 진행 -> 클라이언트의 프로그램이 너무 커짐
+  -> 프로그램 업데이터에서도 관리가 안됨
+
+3 tear architecture
+  client -> view 만 놓고 server 에 요청
+  server -> db 에 데이터를 받아다가 처리를 진행
+  db -> server 에게 재료를 제공
+  너무 많은게 연결되 있음
+
+  mesh app 이 나오면서 3 tear architecture 이 쥬금
+  ex) node js : server client 를 통합한 nasa 아키텍쳐 (스크립트 기반)
+
+devops ? development & operations ? 지속적인 프로그램을 스프린트 기반으로 운영 유지보수
+보안 트렌드 뿐만 아니라 소프트웨어 트렌드도 빠르게 변화하고 이씅ㅁ
+
+advanced system architecture ? 시스템 아키텍쳐가 많이 변화하고 있음
+  기본적으로 cpu 기반 연산에서 gpu 기반 연산으로 진화
+  클라우드 : 오픈 스택
+
+  SOA 기반 아키텍쳐 구조로 변화하는 추세
+
+IoT architecture 에 대한 싸움이 많이 진행되고 있음
+
+MS 가 모바일에서의 실수를 만회하기 위해 IoT 에 집중하고 있음
+여러가지 클라우드 플랫폼위에서 돌아가는 서비스를 준비 중

@@ -4,6 +4,8 @@
 2. reversing : secrets of reverse engineering 1 ~ 4 - done
 2. pcap network programming - done
 3. BitCoin Transaction - done
-4. The Secret of Rules of Modern Living : Algorithm
-5. my RoadMap
+4. The Secret of Rules of Modern Living : Algorithm - done
+5. my RoadMap - none
 6. conference - done
+7. Iot device analysis report
+8. philosophy report
