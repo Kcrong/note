@@ -1,0 +1,13 @@
+pcap_next_ex : 기존 pcap_next 의 경우 interface 가 죽어도 0 을 반환함
+  -> pcap_next_ex 를 통해 interface 가 죽었는지, 단지 패킷이 안오는건지
+ETH_ALEN : ethernet address size (MAC) 48bit
+ip header 을 기반으로 TCP header 의 상대 헤더를 구함
+
+reentrant : 여러 스레드에서 접근해도 충돌하지 않으면 reentrant 하다고 이야기함
+  ex) char *itoa(int n, char *buf); (O)
+  ex) char *itoa(int n) {
+    chat *buf (X)
+    static char buf[] (X)
+  }
+
+  => inet_ntoa : 다중 쓰레드 환경에서 뻑남 -> inet_ntop : reentrant 버젼
