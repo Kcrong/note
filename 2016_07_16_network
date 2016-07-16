@@ -38,3 +38,12 @@ arp 로 물어보고 arp 로 응답을 받으면 상대방의 mac 을 알 수 �
              arpSrcMac 10:02:b5:a5:77:b0
              arpDestIp 192.168.43.87
              arpSrcIp 192.168.43.230
+
+  8.8.8.8 ping ? arp 가 gateway 로 요청된다
+    8.8.8.8 이 같은 네트워크가 아니기 때문 (network addr = ip addr & subnet mask)
+    sender mac : 본인 MAC
+    sender ip : gateway ip
+    target mac : 상대방 MAC
+    target ip : 상대방 ip
+
+  pcap : send_packet 을 통한 패킷 전송

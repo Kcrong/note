@@ -28,10 +28,10 @@ B1. 폴더명을 입력받아 폴더안에 저장된 파일이름을 얻고 결�
 import java.io.File
 
 print("[*] Directory name : ")
-val dirName = readLine()
+val dirName = readLine() // input directory name
 
-val f = new File(dirName)
-if (!f.exists) {
+val f = new File(dirName) // make directory structure
+if (!f.exists) { // if not exists -> println and exit process
   println("[*] Invalid directory name.")
   System.exit(1)
 }

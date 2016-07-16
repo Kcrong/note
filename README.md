@@ -7,6 +7,6 @@
 4. The Secret of Rules of Modern Living : Algorithm - done
 5. my RoadMap - none
 6. conference - done
-7. Iot device analysis report
-8. philosophy report - done
-9. forensic foldering program
+7. Iot device analysis report - done
+8. philosophy report
+9. forensic foldering program - done (none mailing)
