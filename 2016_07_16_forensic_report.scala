@@ -39,8 +39,11 @@ if (!f.exists) {
 val list = f.listFiles
 val (dir, files) = list.partition(_.isDirectory)
 
+val sortedDir = dir.sorted
+val sortedFiles = files.sorted
+
 println("[*] Directories :")
-println(dir.mkString("\n") + "\n")
+println(sortedDir.mkString("\n") + "\n")
 
 println("[*] Files : ")
-println(files.mkString("\n"))
+println(sortedFiles.sorted.mkString("\n"))
