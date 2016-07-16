@@ -11,3 +11,30 @@ reentrant : 여러 스레드에서 접근해도 충돌하지 않으면 reentrant
   }
 
   => inet_ntoa : 다중 쓰레드 환경에서 뻑남 -> inet_ntop : reentrant 버젼
+
+icmp ? src mac 은 본인한테 있음, dest mac _ arp
+  src ip 은 본인 ip, dest ip 는 인자로 받음
+
+arp 로 물어보고 arp 로 응답을 받으면 상대방의 mac 을 알 수 있음
+  누가받아야 할지 모르기 때문에 broadcast 로 보냄 - mac 이 00:00:00:00:00:00
+    (ethernet 은 ff:ff:ff:ff:ff:ff)
+  unicast 로 response
+
+  opcode : request 와 response 를 구별
+  arp request 와 arp response 모두 본인의 arp 를 업데이트 함
+
+  request : ethDestMac ff:ff:ff:ff:ff:ff:
+            ethSrcMac 10:02:b5:a4:de:27
+
+            arpDestMac 00:00:00:00:00:00
+            arpSrcMac 10:02:b5:a4:de:27
+            arpDestIp 192.168.43.230
+            arpSrcIp 192.168.43.87
+
+  response : ethDestMac 10:02:b5:a4:de:27
+             ethSrcMac 10:02:b5:a5:77:b0
+
+             arpDestMac 10:02:b5:a4:de:27
+             arpSrcMac 10:02:b5:a5:77:b0
+             arpDestIp 192.168.43.87
+             arpSrcIp 192.168.43.230
