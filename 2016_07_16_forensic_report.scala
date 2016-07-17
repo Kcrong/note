@@ -23,6 +23,9 @@ B1. 폴더명을 입력받아 폴더안에 저장된 파일이름을 얻고 결�
 ㆍ향 후 수업 진행의 궁금한 점, 바라는 점 준비할 것(첫 날외엔 말할 기회가 없을수 있음)
 ㆍ트랙별 반장은 페북 채팅 걸어주세요. 제출 이메일 주소를 알려드릴테니 별도로 공유해주세요.
 여유로운 주말보내고, 그 날 뵙겠습니다
+
+BOB5_YK_B1_홍길동
+yhaikei@hanmail.net
 */
 
 import java.io.File
@@ -36,14 +39,14 @@ if (!f.exists) { // if not exists -> println and exit process
   System.exit(1)
 }
 
-val list = f.listFiles
-val (dir, files) = list.partition(_.isDirectory)
+val list = f.listFiles // make directory's file lists
+val (dir, files) = list.partition(_.isDirectory) // split directory and file list
 
-val sortedDir = dir.sorted
+val sortedDir = dir.sorted // sort the list
 val sortedFiles = files.sorted
 
 println("[*] Directories :")
-println(sortedDir.mkString("\n") + "\n")
+println(sortedDir.mkString("\n") + "\n") //print with \n in each elements
 
 println("[*] Files : ")
 println(sortedFiles.sorted.mkString("\n"))
