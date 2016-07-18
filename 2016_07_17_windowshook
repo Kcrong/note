@@ -1,0 +1,20 @@
+api monitor
+
+DLL Inject ? Windows MessageHook
+  CreateRemoteThread
+  Registry
+  System DLL Path
+
+Registry ? 레지스트리 경로에 DLL 경로를 올리면 알아서 inject 를 함
+System DLL Path
+  1. Module Dir
+  2. Current Dir
+  3. Windows System Dir
+  4. Windows Dir
+  5. PATH env dir
+
+msimg32.dll 을 똑같이 만들어 주면 됨 -> Hook function
+
+messagebox 호출 -> hook : jmp 내 함수
+  -> 내함수 처리 + real messagebox 호출
+  -> 다시 Hook

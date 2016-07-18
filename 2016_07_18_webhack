@@ -1,0 +1,72 @@
+아이디, 게시판(텍스트, html), 이미지 파일 업로드, 다운로드,
+  관리자 페이지, 어드민, 일반인, 게스트 레벨, non framework
+  ubuntu 버전 상관 없음, 가상화 서버
+  apm, x_86, secure shell, 80, 443 허용, DB 포트 막음
+  ftp sftp 알아서 , 관리자 포트 알아서서
+  파일 확장자 php 관련 뺴고는 다 오픈
+
+순수하게 web 부분만 신경써도 되는건 아님,
+사람, OS, network 부분도 포함
+
+browser -> server -> db : 전체를 통찰 web service 라고 함
+software 자체에 대한 모든 공격 포인트를 파악해야 함
+
+it service component
+  os : web service 의 공격과 os 공격을 동일하게 봐야 함
+  network : network, protocol, websocket 에 관한 취약점도 판단
+  hardware : router 단에서 장악 ? ids 취약점을 이용해서 웹서버 db 공격격
+모든 component 를 구상한 다음, 포인트 node 연결 상태에서 취약점 분석해야 함
+
+component 에 익숙해지기 위해 요소 검사를 먼저 실행함
+  php, apache 등 취약점 : 엄청나게 많은 라이브러리가 구성됨
+    gif 내의 시스템 커맨드 취약점이 존재하는 라이브러리를 가져다 씀 -> 쥬금금
+  다양한 루트에서의 공격을 진행해야 함 : gif 도 표준이 있을 수 있고, 변형될 수 있음
+  동영상도 마찬 가지 : 전체적으로 component 하나하나 따져보면 겁나 많음
+  라이브러리도 안전한지 검증이 되어야 함 -> 어떻게 하면 좀더 안전하게 코딩할 수 있을지 고민해야 함
+
+  각 노드노드에 대한 구성 요소에 대한 지식을 가지고 있어야 함
+  1. OS : 하드웨어를 위한 건지, UI 를 우선으로 한 것인지
+    -> 그래도 구성 요소가 고만고만 비슷비슷 함
+    -> 그저 소프트웨어일 뿐 : 소프트웨어가 가지는 취약점은 모두 내포됨
+      소프트웨어 패키지 - 소프트웨어간 레퍼, 연결 고리를 공격하는 것을 중점으로 함
+    -> OS 를 하다 보면 hw 까지 내려감
+    -> OS 에서 HW 를 쓰려면 ? 소프트웨어적으로 컨트롤할 수 있는 무언가가 필요함
+
+  1.5 OS 와 app 사이에서 발생하는 문제점도 존재
+      os 에서 발생하는 문제가 이렇게 많은데,
+      서비스로 확장 되면서 더욱 많아짐 -> 봐야 하는 부분이 늘어남
+      kernel -> sys call -> (shell, library routines) -> app
+  2. network
+    하위 레이어 취약점이 상위 레이어로 가면서 잠재적 취약점들이 계속 존재하게 됨
+    Layer1 에서 문제점이 존재하지만, 따로 처리하지 못하고
+    캡슐화 되어 Layer7 까지 올라감
+    App 계층이 가장 취약점이 많은 이유 : TCP/IP 취약점이 싹다 감
+  3. HW
+    PC Server Router 이라는 개념으로 접근했던 시절이 있었음
+    이 하드웨어 장치에 대한 구성구성 요소 (Ram, rom, flash) 에 대한 공격 벡터 연구 진행
+    ecc 메모리에 대한 취약점이 나오기도 함
+    보안 장비의 속도 추가를 위해서 ipc 에 filter 같은 것들을 많이 올려놓는데,
+      서비스 연속성을 위해 패킷에 오류가 존재하면 by-pass 하는 취약점도 존재함
+  4. software : ? db, browser
+    store proceder : db 의 대부분 백업 복구하는 기능이 store proceder에 저장됨
+    system 명령어를 건드는 프로시져가 있다면 더욱 취약
+    webshell 에서 system 함수 필터링 ? file system object 를 사용
+      -> 파일에 대한 생성, 수정, 삭제가 가능능
+  5. VoIP service : ip ? ip spoofing, tcp 어마무시하게 많지
+    session ? session hijacking, sip 머시기머시기 겁나 많음
+    endpoint, gate keeper, pbx(교환기) 를 통한 공격 전부 공격 대상
+    cancel , ack, 등 프로토콜 내의 공격 패턴들이 존재
+  6. IP TV Service : 복잡한 아키텍쳐, 공격 포인트가 굉장히 많음음
+    1) 셋탑 박스, 게이트웨이, 관련 서버들, streaming 등등
+      (현행법상 서비스가 하고 있는 부분은 범법법)
+    STB = PC  (stb 내 cpu, ram, os, storage, nic, ... 가 구성됨)
+      ( = ip camera )
+    특정 device ? mbr 에 대해서 decrypt 시키기도 함 (충분히 우회 가능)
+    usb ? 긴급 패치 (-> 물리 해킹)
+    Default passwd, backdoor, 등
+  7. Another service home security
+  jtag, flash dump, web firmware
+  web hacking -> dev 영역까지 침범
+
+  firmware 취약점 network printer hack
+  
