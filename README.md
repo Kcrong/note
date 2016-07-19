@@ -8,7 +8,8 @@
 5. my RoadMap - none
 6. conference - done
 7. Iot device analysis report - done
-8. philosophy report
+8. philosophy report - done
 9. forensic foldering program - done
 10. network pcap send arp programming - done
 11. 2016_07_18 forensic
+12. 2016_07_19 forensic
