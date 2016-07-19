@@ -13,3 +13,5 @@
 10. network pcap send arp programming - done
 11. 2016_07_18 forensic
 12. 2016_07_19 forensic
+  - digital forensic rules - done
+  - personal info secure
