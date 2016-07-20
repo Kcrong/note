@@ -63,3 +63,14 @@ arp infection 에 대해 두 ip 가 같은 맥을 가지면 arp spoofing 검출�
   1. static arp table
   2. xarp : 갑자기 arp cache 가 바뀌면, 경고를 올려줌
     - 동일한 네트워크 상 router 2개가 존재하면 계속 경고가 울림
+
+mac flooding, switch jamming
+  CAM 테이블에 랜덤 ether shost 과 하나의 포트를 계속 박음
+  -> 정상 shost, port 를 잊어버림 -> 타 패킷이 자신한테 옴
+  (실제로는 네트워크가 느려질 뿐 큰 효과를 보기 어렵다)
+
+out of path : 수정 불가 (mirroring) - 흐름에 지장을 주지 않음
+in path : 수정 가능 (inline) - 흐름에 지장을 줌
+pcap 드랍 불가, out of path
+arp spoofing 드랍 및 수정 가능, in path (논리적 중점)
+공유기 - in path (물리적 중점)
