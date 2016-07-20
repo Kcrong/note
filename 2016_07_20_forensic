@@ -1,0 +1,156 @@
+digital forensic science - doing science : information security
+malware analysis : how to do science
+
+how to do scientific method
+apply this method to this poject : it will be better
+
+digital forensic science
+: hallym -> research, un odc, gov coperation
+
+we have to know how computer works
+
+some type of digital investigation
+digital investigation ? what do police do ?
+what is criminal -> someone who violate law
+police are looking for a key, evidence of violation the law
+
+looking to make sure innoscent
+-> most countries focus on prooving someone is guilty
+
+why we think someone is innocent first? not guilty
+-> find evidence someone is guilty -> then asume guilty
+
+how many people are have been to hacking comptition
+how difficult is it, hack the computer and do bad things ?
+  it's very easy sososososososo easy
+-> hacker took over the computer
+: pretend to be them crime
+computer crime, imagine example illegal picture in your computer
+-> somebody else download to computer
+how to proove ?
+
+with computer is too easy to fake, forge to evidence
+police is very carefull to digital crime
+
+if i know your main enemy -> what i am going to do
+-> every country investigate north korea
+-> blame on north korea : it's very dangerous
+we have to get evidence first
+
+when we find north korea ip, but it can be real usa hack
+ex) froxy server
+really careful for everything to talking about
+we have to looking about truth
+
+investigation is finding the truth
+looking for evidence -> already happen, and not happen yet
+
+illegal already happen, or not happened
+how science come to the write answer
+-> process of investigation : Scientific method
+-> anything to do with computer - scientific method ?
+    specific process what cause the problem
+    find out the suspect, bad guy or innocent
+
+  first step : recognizing the process
+    ask a question : download illegal picture ? malware ?
+    then apply the method to find answer
+    good question ? what question ? what's for
+      why do we have so many assignment ?
+  second : Background research
+    to know better what the problem is
+    it takes so much time, but it also saves so many time
+    where is knowledge located -> background research
+    backgound research -> read the research
+      -> knowledge up to expert level
+      -> power up
+    if no background research -> can't make new things
+    then contribution goest to high
+    "extremely import"
+  third : educated guess (hypothesis)
+    what is the truth : guessing many things
+      -> as many as we can
+    trying to proove true or false
+  fourth : prepare
+    how can i test something ?
+    figuring out acutally i have to look to proove the hypothesis
+    background research and prepare
+  fifth : experiment
+    than test it typing, checking, order look
+  sixth : analysis
+    proove the hypothesis is right or wrong
+    what is diff between data and info
+      multiple experiment, and found the key,
+      data output -> info
+      parse the data into a form and the find the relation
+      what info - what can evidence do
+      check for guess
+
+    proove ? you can't usre 100% sure
+      -> proove is not good word
+
+    evidence support the claim
+    police -> find evidence and support or deny the claim
+
+  last : documentation
+    this is the weakest point in korea
+    make the report
+
+    if not; no one believe me
+    investigation report -> boss, and judge
+      how much technical knowledge the judges have
+    have to communicate with others -> boss, client, judge...
+
+evidence support or deny the claim
+digital evidence - information found in the computer
+
+computer (physical drive) <- data
+how was the data stored : magnetic ,
+
+old hdd : magnetic store system
+  human can't understand magnetic data
+  but it represent binary data
+
+ssd (solid state driver) : flash memory
+  charging the electric
+
+hdd, ssd also give no data (we can't understand)
+-> translation process
+-> it can be evidence (we can understand data)
+
+magnetic, electric charge -> invert -> data
+bunch of 0 and 1, and patterns
+-> data structure : make sense what this means
+  time stamp, location, ...
+know the rules for translation
+
+rules for converting data -> information created
+same conscept
+
+finding the data structrue and data will looking at
+-> parse out the information
+this information tell us something relative to the hypothesis
+
+only timestamp ? no evidence
+timestamp + contents -> evidence
+
+limitations of the computers
+: not good at data translate into real-world
+(not good at relative timestamp and data)
+
+
+IoT ? songdo smart city
+- very interesting, all of machine is control by algrotihm
+-> it can be hacked, the city
+
+how can we actually investigate that
+  giving info out of computer is very fast
+  -> copy the info in alot of computer
+  recover -> analysis
+    -> automation tool is required
+
+how can be automated investigation system
+
+quantum computing and df ?
+Mutual legal assistant writer tool
+evidence exchange protocols
