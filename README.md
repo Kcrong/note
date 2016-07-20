@@ -15,3 +15,4 @@
 12. 2016_07_19 forensic
   - digital forensic rules - done
   - personal info secure
+13. reversing - n, p, o

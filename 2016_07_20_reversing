@@ -1,13 +1,224 @@
-완성된 SW 를 분석하는 모든 방법론
--> Dynamic, static analysis
--> Hooking
+RE 개념
+ 완성된 SW를 분석하는 모든 방법론
+  -공학-SW Engineering의 역순
 
-기계어 -> 어셈블리 -> C/C++ -> Java/C#
+  - Hooking 류
+    procmon, regmon, filemon ...
 
-x86 CPU -> CISC 명령어의 종류가 많음 (multi cycle)
-  -> variable instruction length : 가변 명령어 길이
-  ex) push 10h = \x6a\x10 = 2bytes
-    push 1000h = \x68\x00\x10\x00\x00 = 5bytes
+   - State compare
+    파일 수정됬나? 생성됬나??
 
-  x86 asm : syntax - intel, at&t
-  
+ Engineering을 알아야한다 --> 만들수 있어야 분해도 가능
+
+ * 기계어를 CPU를 읽음으로써 명령수행
+ * 어셈블리어는 기계어와 1:1 매칭한 저급언어
+
+ 준비
+  Tools
+   - IDA
+   - Hex editor
+   - Debugger
+   - PEView
+
+CPU
+  x86 CPU
+   - 명령어의 종류가 많음 --> 어셈블리 코더들이 편함
+   - multi-cycle
+
+ASM
+ - x86 asm
+  문법 : Intel, AT&T
+   ==>굉장히 직관적임(Ex. mov ecx, 1000h)
+
+ - mov : 이동
+ - lea : 뒤에 인자에 주소를 로드함
+
+과제1
+  - p.exe::401000h의 함수 핸드레이
+
+Memory
+ - 32bit에서 사용하는 메모리
+   00000000h ~ ffffffffh의 메모리 공간 사용
+ - 64bit에서 사용하는 메모리
+   가상 메모리
+
+ - 시스템에 할당/해제 요청
+   malloc/free
+
+
+지역변수
+ - ptr [ebp-8h]
+ - ptr [ebp-0ch]
+
+인자
+ - ptr [ebp+8h]
+
+Calling conventions(함수호출규약)
+ - '함수'를 외부에서 호출 할 때 규약
+ - 규칙 정하는 거임
+ - __stdcall : WIN32표준
+   ==> 인자는 스택에 역순으로 push
+ - __fastcall, thiscall ...
+
+Windows Process 구성
+ - 커널영역 : 00000000 ~ 80000000
+
+ PE Headers
+  - Win32의 실행 파일 포맷으로 code, data, resources, etc... 로 나눔
+
+ Import
+  - 다른 모듈의 다른 함수를 쓰는 정보
+
+  Debugging?
+   - CPU의 1차적 지원
+   - OS가 CPU를 활용, 추가 지원
+   - Debugger program은 API를 통해 debug
+
+   Breakpoint의 원리
+   	 일부러 interrupt를 발생시킨다. --> 원래의 instruction 대신 0xcc(int 3)를 write
+
+   Single Step의 언리
+   	 Track Flag를 1로 한 후 실행시킴 --> 하나의 instruction만 실행시키고 interrupt를 발생
+
+과제2
+ - n.exe 분석
+ - txt 형태로 제출
+ - 행위 위주 서술
+
+선택3
+  - o.exe 분석
+  - 답이 정해져 있는 듯 함
+
+for 루프
+  mov [i], 0
+  jmp _loop
+_start:
+  push $str
+  call puts
+  add esp, 4
+  mov eax, [i]
+  add eax, 1
+  mov [i], eax
+_loop:
+  cmp [i], 64h
+  jge _start
+
+malloc 과 출력
+  push 0ch
+  call malloc
+  add esp, 4
+  mov [aa], eax
+  mov ecx, [aa]
+  mov edx, [ecx + 8]
+  push edx
+  mov eax, [aa]
+  mov ecx, [eax + 4]
+  push ecx
+  mov ebx, [aa]
+  mov ebx, [ebx]
+  push ebx
+  push $str
+  call printf
+  add esp, 10h
+
+class tt 생성
+  lea ecx, [T]
+  call tt::tt ; 생성자
+  lea ecx, [T]
+  call tt::get_a1
+  push eax
+  push $str
+  call printf
+
+switch case 의 경우 최근에는
+  table 을 통한 참조로도 이루어짐
+jmp [table + 4 * i]
+
+가장 큰 수보다 크면 default, 수가 아니면 default
+
+/////////////////////////
+과제 1
+
+#include <stdio.h>
+
+int loc_401000(int num) {
+  int ebp_4 = 1;
+
+  for (int ebp_8 = 0; ebp_8 < num; ++ebp_8) {
+    ebp_4 <<= 1;
+  }
+
+  return ebp_4;
+}
+
+int main(int argc, char **argv) {
+  if (argc == 2) {
+    int num = atoi(argv[1]);
+    printf("%d\n", loc_401000(num));
+  }
+
+  return 0;
+}
+
+//////////////////////////
+과제2
+
+int main () {
+  int ret;
+  char buf[200h];
+  char *getHttp1_1Host = "GET / HTTP/1.1\r\nHost: www.google.co.k";
+  char *pScript = "<script>"
+
+  WSADATA wsaData
+  wsaData.wVersion = 0;
+  memset(&wsaData.wHighVersion, 0, 18);
+
+  ret = WSAStartup(202h, &wsaData);
+  if (ret != 0 ) return ret;
+
+  ADDRINFOA pHints;
+  pHints.ai_flags = 0;
+  pHints.ai_family = 0;
+  pHints.ai_socktype = 0;
+  pHints.ai_protocol = 0;
+  pHints.ai_addrlen = 0;
+  pHints.ai_canonname = 0;
+  pHints.ai_addr = 0;
+  pHints.ai_next = 0;
+
+  PADDRINFOA ppResult;
+  ret = getaddrinfo("www.google.co.kr", "80", pHints, ppResult);
+  if (ret != 0) return ret;
+
+  SOCKET sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+
+  memcpy(buf, getHttp1_1Host, strlen(getHttp1_1Host));
+  connect(sock, ppResult->ai_addr, 10);
+  send(sock, buf, 2Bh, 0);
+
+  char *mbuf = malloc(3000h);
+  ret = recv(socket, mbuf, 3000h, 0);
+  ret -= 9;
+
+  int var_1F1 = 0;
+  int var_1F0;
+  int var_1E4 = ret;
+
+  buf -= pScript
+  char *var_1F0 = buf;
+  buf + 8
+  if (*pScript == *(buf + pScript)) {
+    if (buf + 4 >= 4) {
+      int _edi = 8;
+      var_1F0 = buf + 8;
+      var_1F1 = 1;
+
+    ...
+    }
+  }
+
+  WSCleepup();
+  free(buf);
+}
+
+스크립트를 파싱한다.
