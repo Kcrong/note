@@ -1,0 +1,13 @@
+완성된 SW 를 분석하는 모든 방법론
+-> Dynamic, static analysis
+-> Hooking
+
+기계어 -> 어셈블리 -> C/C++ -> Java/C#
+
+x86 CPU -> CISC 명령어의 종류가 많음 (multi cycle)
+  -> variable instruction length : 가변 명령어 길이
+  ex) push 10h = \x6a\x10 = 2bytes
+    push 1000h = \x68\x00\x10\x00\x00 = 5bytes
+
+  x86 asm : syntax - intel, at&t
+  
