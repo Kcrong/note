@@ -1,0 +1,65 @@
+L2 Switch - data link layer : Ethernet header
+  ethernet 헤더 외의 다른 헤더는 볼 수 없음
+  dhost, shost 만 확인함
+  (arp table 을 가지지 않음)
+
+  CAM table - Content Addressable Memory Table 정보를 가짐
+  L2 Switch - 포워딩을 해줘야 함
+  1. education : ether shost 를 학습함 (CAM += shost :: port num)
+  2. flooding : ether dhost 를 모를 경우 남은 모든 포트로 전송함
+  3. forwading : ether dhost 를 아는 경우, CAM 테이블을 참조하여
+      해당 포트로만 데이터를 전송함
+
+L2 Switch
+  CAM Table = { "Mac addr":"Port num" }
+  (key, value)
+
+Host
+  ARP Table { "IP addr":"Mac Addr" }
+  (key, value)
+
+promiscuous mode : 선별 없이 모든 패킷을 받아드림
+non promiscous mode : 선별을 거쳐 패킷을 받아드림
+
+-> sniffer 을 돌릴 때는 promiscuous mode 를 이용
+
+np mode -> lancard mac, broadcast mac, multicast mac
+
+tcp 는 broadcast 할 수 없음, udp 만 broadcast 가능
+
+ethernet 패킷은 방향성이 없음, 들어오는지 나가는지 모름
+나가는거 보니까 destination 이 보니까 ff:ff:ff:ff:ff:ff
+-> 누군가 자신한테 보낸 패킷이라 가정하고 어플리케이션으로 올려버림
+
+arp spoofing session : sender -> attacker -> receiver 의 흐름 단위
+original ip packet : sender -> receiver
+spoofed ip packet : sender -> attacker
+relay ip packet : attacker -> receiver
+
+infection 후 recovery packet 을 전송하여,
+정상 인터넷 상태를 만들어 줘야 함
+
+receiver 가 보내는 arp request 에 의해 sender 의 arp table 이 정정됨
+-> receiver 의 arp request 패킷이 attacker 에게 감지될 경우,
+  다시 sender 에게 infection packet 을 다시 보냄
+arp table timeout 에 의해 sender 가 다시 request 를 보냄
+-> sender 의 arp request 패킷이 attacker 에게 감지될 경우,
+  다시 receiver 와 sender 에게 infection packet 을 다시 보냄
+
+하지만 최근에는 arp table cache 가 만료되기 몇초 전에
+  unicast 로 arp 를 확인함 -> infection 을 양쪽에 모두 시행
+
+그럼에도 세는 패킷이 있을 수 있기 때문에 주기적 infection 이 필요
+
+relay 에서 sender 의 MAC 을 붙여서 보내면 ?
+  CAM 테이블이 감염됨 -> 같은 맥이 두개의 포트를 가지게 됨
+  -> L2 switch cam table 은 왠만하면 건들지 말것
+
+arp infection 에 대해 두 ip 가 같은 맥을 가지면 arp spoofing 검출이 가능
+-> virtual mac address 의 사용을 통해 우회가 가능 - 유선에서만 가능
+  (무선에서는 vma 를 사용할 수 없음)
+
+방어자
+  1. static arp table
+  2. xarp : 갑자기 arp cache 가 바뀌면, 경고를 올려줌
+    - 동일한 네트워크 상 router 2개가 존재하면 계속 경고가 울림
