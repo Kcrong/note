@@ -1,0 +1,34 @@
+입문 서적 : 뇌를 자극하는 하드웨어 입문
+  만화로 쉽게 배우는 전기
+  짜릿짜릿 전자회로 DIY
+  당근이의 AVR 갖고 놀기
+  일렉트릭 유니버스
+  임베디드 레시피
+Youtube 영상
+http://cafe.naver.com/carroty
+http://hackaday.com
+http://hak5.org
+http://makezine.com
+
+임베디드 장비 해킹 -> 어떻게 돌아가는지 알아야 전략이 서는 것
+  -> AVR 프로그래밍이 기본디 되어야 함
+
+  MCU : Micro Controller Unit
+    소형, 저전력의 컴퓨터 (CPU + RAM + ROM : SoC System on Chip)
+    -> 특수 목적 수행을 목표로 함 (범용적이지 않음)
+
+    센서와 모듈을 추가해 나가며 기능을 확장함
+    + C언어(or asm)를 이용한 프로그래밍
+
+  ex) AVR : Atmel 에서 개발
+    8051 : intel 에서 만든 MCU
+    PIC : MS 사에서 만든 MCU
+
+Atmega128A 소개
+  8bit mcu
+  최대 16Mhz 속도
+  128kbytes 플래시 메모리
+  4kbytes  의 SRAM 내장
+  4kbytes 의 eeprom 내장
+  133개의 instruction 제공
+  2.7~ 5.5v 전압에서 동작
