@@ -11,10 +11,10 @@
 8. philosophy report - done
 9. forensic foldering program - done
 10. network pcap send arp programming - done
-11. 2016_07_18 forensic
+11. 2016_07_18 forensic - done
 12. 2016_07_19 forensic - done
   - digital forensic rules - done
   - personal info secure - done
-13. reversing - n, p, o
+13. reversing - n, p - done
 14. problem solving
 15. reversing - s
