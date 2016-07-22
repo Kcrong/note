@@ -31,4 +31,13 @@ Atmega128A 소개
   4kbytes  의 SRAM 내장
   4kbytes 의 eeprom 내장
   133개의 instruction 제공
-  2.7~ 5.5v 전압에서 동작
+  2.7~ 5.5v
+  전압에서 동작
+
+AVR Studeion or Atmel_STUDEIO
+atmel studio 6.2 installer
+
+UART Hack
+  UART 신호 스니핑
+  : Digital logic analyzer
+  - 전기 신호를 캡쳐하여 0 혹은 1로 보여주는 장비

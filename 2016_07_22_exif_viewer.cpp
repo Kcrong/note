@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <winsock2.h>
+#include <arpa/inet.h>
+//#include <winsock2.h>
 
-#pragma comment(lib, "WS2_32.lib")
+//#pragma comment(lib, "WS2_32.lib")
 
-const unsigned char EXIF_SIGN[] = { 0xFF, 0xD8, 0xFF, 0xE1, 0x61, 0xC8, 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
+const unsigned char EXIF_SIGN[] = { 0xFF, 0xD8, 0xFF, 0xE1 };
 
 struct IFD_Field {
 	unsigned short tagID;
@@ -32,15 +33,16 @@ int main() {
 		return -1;
 	}
 
-	fread(in, 1, 12, fp);
+	fread(in, 1, 4, fp);
 
-	for (int i = 0; i < 12; ++i) {
+	for (int i = 0; i < 4; ++i) {
 		if (in[i] != EXIF_SIGN[i]) {
 			printf("[*] non-Exif format file ...\n");
 			return -1;
 		}
 	}
 
+	fseek(fp, 8, SEEK_CUR);
 	fread(in, 1, 4, fp);
 	if (*((short *)&in) != 0x4D4D) {
 		printf("[*] Couldn't analyse Little endian file ...\n");
@@ -72,13 +74,16 @@ int main() {
 
 	for (int i = 0; i < 2; ++i) {
 		GEO_TAG temp;
-		fread(&temp, sizeof(GEO_TAG), 1, fp);
+		fread(&temp, 24, 1, fp);
 
 		double deg = (double)temp.deg / temp.deg_div;
 		double min = (double)temp.min / temp.min_div;
+
+		temp.sec = ntohl(temp.sec);
+		temp.sec_div = ntohl(temp.sec_div);
 		double sec = (double)temp.sec / temp.sec_div;
 
-		printf("%.02f`%.02f\"%d\'\n", deg, min, sec);
+		printf("%.02f`%.02f\"%.02f\'\n", deg, min, sec);
 	}
 
 	return 0;
