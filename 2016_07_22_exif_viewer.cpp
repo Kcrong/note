@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
-//#include <winsock2.h>
-
-//#pragma comment(lib, "WS2_32.lib")
 
 const unsigned char EXIF_SIGN[] = { 0xFF, 0xD8, 0xFF, 0xE1 };
 
@@ -41,10 +38,11 @@ int main() {
 			return -1;
 		}
 	}
-
 	fseek(fp, 8, SEEK_CUR);
-	fread(in, 1, 4, fp);
-	if (*((short *)&in) != 0x4D4D) {
+
+	unsigned short id;
+	fread(&id, sizeof(short), 2, fp);
+	if (id != 0x4D4D) {
 		printf("[*] Couldn't analyse Little endian file ...\n");
 		return -1;
 	}
@@ -60,7 +58,10 @@ int main() {
 	printf("[*] Number of 0th IFD Field Count : %hd\n", fieldCount);
 
 	IFD_Field gpsField;
-	fread(&gpsField, sizeof(IFD_Field), 1, fp);
+	do {
+		fread(&gpsField, sizeof(IFD_Field), 1, fp);
+		gpsField.tagID = ntohs(gpsField.tagID);
+	} while (gpsField.tagID != 0x8825);
 	gpsField.value = ntohl(gpsField.value);
 	printf("[*] GPS offset : %d\n", gpsField.value);
 
@@ -69,6 +70,10 @@ int main() {
 	fread(&fieldCount, sizeof(short), 1, fp);
 	fieldCount = ntohs(fieldCount);
 	printf("[*] Number of GPS IFD Field Count : %hd\n", fieldCount);
+	if (fieldCount <= 2) {
+		printf("[*] It has only altitude data\n");
+		return -1;
+	}
 
 	fseek(fp, sizeof(IFD_Field) * fieldCount + 4, SEEK_CUR);
 

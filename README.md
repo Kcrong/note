@@ -12,7 +12,7 @@
 9. forensic foldering program - done
 10. network pcap send arp programming - done
 11. 2016_07_18 forensic
-12. 2016_07_19 forensic
+12. 2016_07_19 forensic - done
   - digital forensic rules - done
   - personal info secure - done
 13. reversing - n, p, o
