@@ -14,6 +14,7 @@
 11. 2016_07_18 forensic
 12. 2016_07_19 forensic
   - digital forensic rules - done
-  - personal info secure
+  - personal info secure - done
 13. reversing - n, p, o
 14. problem solving
+15. reversing - s
