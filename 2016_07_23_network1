@@ -1,0 +1,35 @@
+Topology : 네트워크를 구성하는 노드간의 기하적 배치
+  Bus - Ethernet 의 주요 모형, 하나의 주요 회선을 공유
+  Star - 기지국의 모형, 중앙의 공유체가 고장나면 통신이 불가능함
+  Mesh - 비용은 높지만 안정성은 높음
+
+LAN Card : 필터링의 역할을 함
+  ether_dhost 가 본인인 것만 application 계층으로 끌어 올림
+
+Ethernet Frame :
+  Preamble - 수신측의 프레임 동기를 위하여 각 프레임의
+    헤더 맨 앞에 붙이는 비트열
+  DA, SA (6byte) : 수신지 및 송신지 Mac
+  //length : 길이
+  Type (2byte): 상위 계층의 프로토콜 ex) 0x0800 IP, 0x0806 ARP
+
+  Payload - maximum : 15000 bytes
+
+
+Broadcast : 수신자가 정해져 있지 않음
+  ARP ? 모든 사람이 수신할 수 있음, 발신에도 제한이 존재하지 않음
+    -> 전혀 상관 없는 사람이 response, request 를 전송하면서 spoofing 발생
+
+네트워크 장비 - Hub, Bdirge, ROuter, Switch ?
+  Repeater : 가전송 거리를 늘려줌
+  Bridge : 서로 다른 네트워크를 연결
+  Switch : Multi port Bridge - 각 포트마다 포트에 연결된 mac 정보가 저장됨
+  Router : 서로 다른 네트워크를 연결 -> 최적화된 경로로 데이터를 전송
+
+network frame :
+  ether_dhost 는 프레임 마다 계속 다름 -> 바로 다음 목적지의 주소
+    : Gateway 와 목적지 ether_dhost
+
+  많은 경우가 PC 카운트 하는데 MAC 을 사용함
+    -> Web 에서 MAC 을 가져가려 함 : Plugin, ActiveX 를 사용
+    -> 보안상 관점에서 모순이지만, Plugin, ActiveX 를 사용하지 말아야하는 부분도 존재
