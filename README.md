@@ -16,5 +16,5 @@
   - digital forensic rules - done
   - personal info secure - done
 13. reversing - n, p - done
-14. problem solving
-15. reversing - s
+14. problem solving - done
+15. reversing - s - done
