@@ -1,0 +1,67 @@
+1811 : 최초의 전신 - 여러 개의 전선
+1837 : 5 Needle Telegraph - 다섯개의 바늘과 알파벳 그래프를 통한 알파벳 표현
+1837 : Morse Telegraph - 도트를 통한 알파벳 표현
+
+1876 : Alexander Graham Bell - 소리도 진폭과 주파수가 있음 -> 전신으로 이동
+1878 : 전화 교환 서비스 - 여러명이서 통화를 하려면 중간에 노선을 바꿔주는 사람이 필요
+  -> switch 의 발명과 사람이 operation 을 함
+1884 : New york -> Boston 전화 서비스 (235 miles)
+
+PSTN Public Switched Telephone Network: 공중 교환 전화망
+  -> 클래스별 스위치의 목적이 다름
+  : class 1::지역간, ..., class::도시간, ... class::국가간
+
+Switchboard operator - 기본적으로 중간에서 모든 통화내용을 들을 수 있음
+* long distance call : 지역과 지역으로 계속 operating 하여 연결까지 엄청 오래걸림
+
+1887 : Strowger step-by-step switch - 기계식
+1950 : Cross bar switch - 기계식
+1965 : Electronic Switching System - 전자 스위칭 시스템
+  Signaling : 스위치로 전송되는 라우팅 신호
+
+  interoffice Signaling - 내부망에서 라우팅을 위해 사용하는 신호
+    : 특정 신호를 보내면 다른 라인으로 연결되게 되있음
+    if terminal 에서 특정 신호를 보내면 -> 다른 지역으로 자동 연결 : 최초의 해킹
+      상대방이 수화기를 들기 전에는 과금되지 않음
+      전화나 긴급전화는 과금되지 않음
+      수화기 음성과 제어신호를 같은 회선으로 전송
+      회선에서 검출되는 특정 신호에 따라 제어
+
+    -> captain crunch whistle - 내부망 시그널용 특정 신호와 동일한 소리를 발생
+      - 통화를 끊으라는 신호, 특정 패턴으로 불면 스위치를 조작할 수 있음
+      blue box 디바이스 개발 -> phone box 에 붙이고 통화를 걸면 무료 통화가 됨
+
+1976년 이후 : 데이터 채널과 스위치 채널이 분리됨
+
+SS7 : Signaling System 7 - 신호 표준이 생성됨
+  CAS Channel associated signaling - 제어와 데이터의 통신 채널의 분리 (phreak 불가)
+  매우 빠른 연결 속도, 스위치간 데이터 교환이 쉬움,
+  시스템 확장성이 좋음, 자원 소모가 낮음
+
+  물리회선을 통한 연결 : MTP Layer 1 - Physical layer
+  인접 노드간 전송 : MTP Layer 2 - Data Link Layer
+  원거리 노드간 전송 : MTP Layer3 - Network Layer
+
+  SSP : Service Switching Point
+  STP : Signaling Transfer Point
+  SCP : Service Control Point
+
+  SCCP : Signaling Connection Control Part (Routing 친구)
+  ISUP : ISDN User Part - 전화를 끊고 연결하는 등의 인스트럭션을 정의
+
+  요즘은 IP 네트워크와 연결되 있음
+
+/////////////////////////////////////
+
+1984 1G PSTN
+1991 2G PSTN
+1999 2.5G PSTN, Packet Network
+2002 3G Packet Network
+
+무선 전화
+(지워짐)
+
+과제
+  BlueBox 를 이용한 전화해킹이 가능했던 이유는
+  1세대 이동 통신이 가지는 취약점과 원인은 ?
+  kjin24@gmail.com
