@@ -1,0 +1,189 @@
+web service : 3 Tier 구조 ( db -> server -> client )
+    apache - php - mysql
+각 노드, 커넥트 별로 우리가 점검해야 하는 취약점이 존재할 수 있는 구조
+  -> 나중에 클라이언트 사이드, 서버 사이드, 어플리케이션, DB 연관 구조에 대해 연구할것
+
+web 이 좋은 이유 ? 확장성, 접근성, 플랫폼의 독립 ? 웹에 대한 강점들이 있겠지만
+  -> 다른 네트워크 프로토콜보다 웹 프로토콜이 너무 좋음 ( 간단, 비연결지향 )
+
+  연결 지향의 경우 : 연결이 된 다음에 서비스가 진행됨
+  http ? 비연결 지향이기 때문에 한번 보내고, 인터넷이 단절 후 재연결 할 경우
+    지속적으로 서비스, 프로세스를 유지시키는데 문제가 되지 않음
+    -> 많이 확장되어 다른 영역에 까지 침범하고 있음
+
+  클라이언트 서버 베이스 : 클라이언트 - 웹 브라우져만 있어도 됨
+  너무 전성기다 보니 js 가 메인 랭귀지가 되기도 함
+
+현재 web 2.0
+----------------------- 사용자 기준
+과저 web 1.0
+
+web 취약점 ? sql injection, xss, 등등...
+
+인증 - bypass 를 목적으로 함
+접근 제어 ? password , id, element 를 가진 접근 제어
+  app, system 등과 같은 level 에서의 처리
+
+injection ? sql, command, code, packet, 등등
+
+Client : Browser : Session(cookie), client side script
+-> packet injection -> Web Server : socket, code, command
+-> application
+-> database : sql injection
+
+OWASP Top 10 : 웹해킹 사고, 영향도, 해킹 기법에 대한 순위를 매김
+
+injection ? 자동화 도구도 많고, 방법도 많음
+  -> 웹에서 사용하는 모든 기능 프로토콜, 라이브러리 같은 것들을 통해
+      인젝션이 가능함 (from n-Tier structure)
+    인증 우회, XSS 등이 따라옴
+
+http 가 1.0 부터 시작, 1.1 까지는 RFC 가 나옴
+
+http 1.0 과 http1.1 을 혼용해서 사용할 수 있음
+  꼭 1.1 로만 서비스한다고 1.0 으로 못들어가는건 아님
+  큰 차이가 있지않음
+
+지금은 2.0 에 대해서 이야기 하고 있는데,
+  반영을 하거나 할 수가 없음
+  다른 웹 서비스로 공공된 기업에서 또다른 프로토콜을 제시함
+
+  해당 프로토콜을 2.0 에 널까 ? 검토할게 점점점점 많아짐
+
+http : request, response
+
+클라이언트 request 를 보냄 -> 서버 reponse 를 해야함
+대부분의 공격은 request 로 보내며, response 를 보면 행위를 결정함
+
+request 와 response 는 RFC 에서 보이듯이 필요한 항목이 필요함
+  Protocol, host 등등...
+
+http : wireshark, chrome dev tool, burp suit, Fiddler, Paros 등등
+
+wireshark - packet capture
+burp suit - web local proxy (Fiddler, Paros)
+chrome dev tool
+telnet, netcat - net tool : cmd 를 통한 network 통신
+
+proxy ? 대행자 , 전달자의 개념
+  server 와 client 사이에서 대신 받아 전달을 해주는 역할
+  Proxy 를통해서 packet 을 캡쳐할 수 있음
+
+burp suit, fiddler, paros -> web local proxy
+  nic - proxy - browser 의 프록시
+  조작, 관찰, 드롭이 가능함
+
+request, repsonse
+  General : request, response 코드 등 통신용
+  Request, Response : request, response 정보
+  message body : 필요한 내용
+
+  -> web browser 가 모두 해줌
+
+  RFC1945 (http 1.0), RFC2616 에서 확인 가능
+  한번쯤은 RFC 를 보는 것이 좋음
+  (http 목적, 구조에 대한 이야기가 있음 구조적 취약점 발견에 용이)
+
+  General, head, body 의 구조
+  Simple request, full reuqest, method 등등...
+
+Method - addr - protocol
+addr - protocol : 최상위 domain :
+
+domain - ex) www.naver.com.
+root dns : .
+gtld : .com
+domain : .naver
+sub domain : www
+  - root dns 는 꼭 들어가야 함 -> . 을 생략할 수 있음
+
+root -> com -> naver -> www 순서로 찾아감
+domain -> ip 로 변경되어 찾아감
+: 해당되는 ip 의 web dir 부터 웹 어플리케이션 사용이 가능함
+
+status code : response 를 주기 전에 본인 상태를 알려줌
+  3 자리 : 맨 앞자리 - 분류 ( 200 ok, 300 이면 머머머, 400이면 머머머)...
+  10k - 잘 안씀
+  20k - 성공
+  30k - redirection
+  40k - client error
+  50k - server error
+
+  ex) 404 ? client 의 접근 제한 -> 너가 잘못해쪙
+
+attack vector - protocol://hostname[:port]/[path/]file[?param=value]
+1. parameter - 파라미터 변경이 되는지, 숨겨진 parameter 가 존재하는지
+    변경에서 error 가 발생하는지, 이를 통해 ex 가 가능한지
+2. port
+3. path - 숨겨져 있는 path 가 있는지, 상위 path 로 갈 수 있는지
+4. domain - admin 이 존재하는가 ? 잘 안쓰는 다른 관리자 도메인이 존재하는지
+5. protocol - 다른 프로토콜로 접근하여 얻을 수 있는 것이 있는지
+
+rest ? Representational Stat Transfer
+
+Server Side Script : PHP Perl, JSP, 환경 설정 취약에서 발생 가능
+  PHP 특정 라이브러리와 같은 경우
+
+client side : 내 pc 저장되서 활용되는 것, 바로 전송되서 무언가를 하는 것들
+
+Server 에 대한 취약점이 타겟팅하는 목적이 될수 있음
+
+인코딩 - URL, Unicode, HTML, Base64, Hex
+  현재 보호기법등이 많이 적용됨
+    -> 우회하다 보니 encoding 이 가장 손쉬운 bypass 가 될 수 있음
+
+  parameter 공격 -> 먼가를 만들어서 집어넘 : encoding, double encoding 을 통해 우회
+
+Injection : sqli db 공격
+  sql - web application 에서 db 내용을 가져가기 위해 application 에 포함된 것
+  우리가 원한는 것들을 너어 우리가 원하는 기능을 하게 하는 것
+  제일 많이 사용, 피해 양상
+
+SQL : Structured Query Language
+  - DB 내용을 끌어서 이게 맞는지 안맞는지 보여주기 위한 언어
+  우리가 개입할 부분을 찾는 것
+
+DB query
+-> 우리가 단순하게 파라미터가 맞는지 안맞는지 검사하기 위해 정합성만 체크함
+-> 0 or 1 / true or false -> true 값을 만들어 데이터에 대한 리스트를 만듬
+
+sqli -> db 개발을 많이 한 사람이 injection 을 잘함
+SELECT LOAD_FILE('/etc/passwd') -- # 절대 경로를 따라야 함
+SELCT ~ INTO OUTFILE ~
+
+vulnerable server side script upload : web shell
+MSSQL Error injection - store procedure 을 알고 있으면 다양한 공격이 가능함
+  DB_NAME, DB_USERNAME, hostname, ip, version...
+  (select @@version)
+
+proxy tool 을 이용해서 request 를 수정해서 보내든, sql injection tool 을 이용하든,
+  url tool 을 이용하여 조작해서 보내든, scanner 기능을 이용하든 함
+
+툴 사용을 자제할것
+
+db 형태에 따라 특수문자 사용이 달라짐
+
+update : 패스워드 변경 - old password 를 몰라도 true 로 만들어 공격
+  특수 문자, 주석 문자가 db 에 따라 다름
+
+MS SQL injection : 사용하지 않은 db 의 store procedure 을 disable 시킬 것
+  -> 내가 enable 시키면 됨 ㅋ
+  cheat sheet 만 달달달달 외워도 어느정도 될듯
+
+XSS reflect, stored ...
+reflect ? application 에 대해서 사용하고자 할 때, 공격자 입장에서 조작된 스크립트 보내고,
+  URL 을 조작된 스크립트로 접근 하면, server 은 client 에 XSS 를 보여줌
+stored ? 공격자가 먼저 xss 를 app 에 넣고, 저장을 함
+  client 가 app 에 접근하면, xss 가 실행됨
+dom based ? url 을 만들어서 보내고,
+  index | guest | user | admin
+                | login logout
+        | write read modify delete
+                | upload download
+        | search
+
+기능 mapping 후 분석 1. logic 분석 2. 평가 3. input 검사 4. 전체적으로 표를 나타냄
+  -> tech tree 발생 : read, write, delete, modify 평가
+  -> 공격 점검 및 ex -> 내가 특정 어플 기능만 파악해도 어떤 취약점이 존재할 것 같다라는 감이 생김
+
+숙련된 웹 펜테스터, 모든 펜테스터는 attack tree 작성이 용이해짐
