@@ -63,7 +63,5 @@ arp 로 물어보고 arp 로 응답을 받으면 상대방의 mac 을 알 수 �
   3. victim과 gateway에 대해 각각 ARP_REQUEST를 직접 날려서 mac 주소를 물어 보고 그 응답을 받아서 mac을 구해 온다.
   4. ARP infection packet을 victim(sender)에게 날려서 victim(sender)에서 바라 보는 gateway(target) ARP table이 제대로 변조되었는지 확인한다.
   [제출]
-  2016.07.22 23:59
   소스 코드는 가급적 C, C++(다른 programming language에 익숙하다면 그것으로 해도 무방).
   OS는 windows나 linux.
-  bob@gilgil.net 계정으로 git repository 주소를 알려 줄 것.
