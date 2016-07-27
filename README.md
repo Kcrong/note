@@ -18,3 +18,6 @@
 13. reversing - n, p - done
 14. problem solving - done
 15. reversing - s - done
+16. reversing - o done
+17. network - blubox hack
+18. network - arp spoof
