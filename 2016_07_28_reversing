@@ -16,3 +16,5 @@ Process monitor -> 프로세스가 파일을 읽고, 쓰고, 레지스트리 쿼
 
 Code injection 을 편하게함 -> DLL injection
   CreateRemoteThread 외에도 SetWindowsHookEx 를 통해서 전체 프로세스에 후킹 가능
+
+http://www.reversecore.com/40
