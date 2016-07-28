@@ -1,0 +1,18 @@
+Process ?
+  하나의 메모리를 공유하는 독립적 실행 객체
+Thread ?
+  프로세스 내에서 레지스터를 가지고 실행되는 개개의 실행객체
+
+Code injection ?
+  OpenProcess -> VirtualAlloc -> WriteProcessMemory -> CreateThreadEx
+  권한만 있으면 코드를 바꿔버릴 수 있음 -> Process control 이 가능해짐
+  (User mode 의 권한이 너무 강한 윈도우의 잘못된 설계라 판단)
+
+Process monitor -> 프로세스가 파일을 읽고, 쓰고, 레지스트리 쿼리 등의 내역을 기록함
+  -> 계산기에 WriteFile API 를 삽입하여 파일을 쓰고, process monitor 에서 관찰할 것
+
+함수를 inject 할 때에는 return 4 를 통해 standard call 을 할 수 있게 해야함
+  -> 아니면 함수가 망가져서 죽을지도...
+
+Code injection 을 편하게함 -> DLL injection
+  CreateRemoteThread 외에도 SetWindowsHookEx 를 통해서 전체 프로세스에 후킹 가능
