@@ -1,0 +1,51 @@
+MCU - Micro Controller Unit
+  소형 컴퓨터 - 특수 목적을 수행하는 소형화된 CPU + RAM + Mainboard ...
+  주변 장치 추가를 통한 기능 확장
+
+  CPU, FLASH, SRAM, ROM, I/O 기능이 합쳐짐
+    -> 혼자 동작 가능한 통합형 칩셋 (소형 장비에 사용)
+    -> CPU 는 추가 부품이 없을 경우 단일 객체로써 작동할 수 없음
+
+
+칩이 PCB 에 연결되는 방식 -> 패키지 (DIP, SOIC, TSOP, TQFP, BGA 등등..)
+  Atmega128a : TQFP 형
+
+Atmega128A : 8bit mcu (16Mhz 속도), 128kb 플래시 메모리, 4kb sram, 4kb eeprom
+  133개의 instrution, 2.7v ~ 5.5v 전압
+
+개발 도구 - AVR Studio or Atmel Studio (무료 통합 개발 환경)
+
+전류 - 전위(전압) 차에 의해 발생
+  : GND 0v + 어떠한 전압 -> 전류 발생 -> LED 등불
+
+MCU 대부분의 핀이 입출력 포트
+
+64개에서 7개의 그룹으로 나눠짐
+정해진 기능을 수행하는 특수 포트도 존재
+
+레지스터 ? 데이터를 저장, 특정 기능을 enable, disable, 상태 제어 용도로 사용
+
+DDRA - Data Direction Register ? 0 - 입력, 1 - 출력
+PORTA : 0 => 0V , 1 => 5V
+
+AVR 핀에서 나오는 전류량 -> 50mA
+
+atmel studion 는 2진수를 지원함 0b11111 ...
+ddra -> 오른쪽부터 1번핀, 2번핀, 3번핀...
+
+shift register 검색
+led scanning 기법 검색
+
+UART ? Hardware 단의 통신 프로토콜 중 하나
+  범용 송수신 프로토콜 (Universal SYnchronous and Asynchronous Receiver/Transmitter)
+
+UCSR0 A B C 3개 : Control and Status register - 통신환경 설정
+  UCSR0A - flag register
+  UCRS0B - 기능설정 (3bit TX 활성화, 4bit RX 활성화) -> 범용핀이 특수핀이 됨
+    TX - 송신부, RX - 수신부
+  UCRS0C - 통신 설정 default = 0b00000110
+UBRR0 H L 2개 : Baud Rate Register - 통신 속도 정의 (http://wormfood.net/avrbaudcalc.php)
+  표에서 CPU 처리속도와 원하는 baud rate 값을 찾아 집어넣음
+  레지스터 하나에 8bit, 255 를 넘기 전에는 UBR0L 에 255 를 넘기면 UBR0H 에 추가 사용
+UDR0
+  -> 프로그래밍에 사용되는 레지스터
