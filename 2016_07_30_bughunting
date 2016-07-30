@@ -37,3 +37,21 @@ intel x86_32 asm 를 at&t 혹은 intel 형식으로 표현
  문제를 단순하게 만들것
 
  esp 를 기준으로 접근 -> call
+
+모든 취약점 -> untrusted input 에서 부터 발생 : 입력을 최대한 줄이는 것이 중요
+  => untrusted input 를 명확히 정의하는 것이 가장 중요
+
+모든 시스템 ? 소프트웨어, 하드웨어 시스템 수정의 용이성
+  수정이 쉬우면 소프트웨어, 어려우면 하드웨어
+
+[*] xchgebpesp : iptime firmware - time pro.cgi 를 c 코드로 복원해오시오 (1주일)
+  -> 3번 KISA 취약점 제보 포상제 양식에 맞춰 제출 - untrusted input 에서 cmd injection 다 찾아왕
+대상으로 잡은 공유기, timepro.cgi 이친구를 c코드로 복원
+[BOB]_과제2_이름,이름,이름..............
+다음다음주토요일 23시59분 59초
+
+취약점 -> 이를 통해서 얻을게 있어야 함
+  cmd injection -> 커맨드 삽입 : ./test "/etc;/bin/sh" or /etc|/bin/sh or encoding
+    system 함수 위험함..
+
+afl, llvm

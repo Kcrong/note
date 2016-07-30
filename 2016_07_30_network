@@ -1,0 +1,15 @@
+packet drop ? windivert, netfilter or arp_spoofing
+
+windivert -> ip level 부터 패킷이 잡힘 (no ethernet)
+  : in-path => sendpacket 을 하지 않으면 패킷이 드롭됨
+
+netfilter tutorial : http://www.gilgil.net/communities_kr/826200
+
+유해사이트 db 의 증가
+=> aho-corasick
+  유해사이트 apple, ant, banana
+
+  input => a - p - p - l - e
+             - n - t
+                   |
+           b - a - n - a - n - a
