@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+int foo (int i, int j, int k) {
+  return i + j + k;
+}
+
+void bar(int *i) {
+  *i = 1;
+}
+
+void baz(int i) {
+  printf("%d\n", i);
+}
+
+int main () {
+  int i = 0;
+  foo(1, 2, 3);
+  bar(&i);
+  baz(i);
+
+  return 0;
+}
+
+///////////////////////////////////////////
+
+intel x86_32 asm 를 at&t 혹은 intel 형식으로 표현
+
+모든 함수 : 프롤로그가 존재 - 함수의 지역 변수가 필요하면 sub 까지 3줄, 아니면 2줄
+  에필로그 : 지역변수가 있으면 leave ret,아니면 pop ebp, ret
+  (leave = mov esp, ebp; pop ebp)
+
+ [] => 포인터
+ ebp 를 기준으로 접근 : (-) 지역변수, (+) 인자 (ebp+0x8 이 첫번째)
+
+ lea 는 [] 와 함께 나옴 -> mov 로 바꾸고 괄호를 지움
+ lea eax, [edx + eax * 1] => mov eax, (edx + eax * 1)
+ 문제를 단순하게 만들것
+
+ esp 를 기준으로 접근 -> call
