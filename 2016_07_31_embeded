@@ -1,0 +1,128 @@
+hello world uart programming 하기
+  -> UDR0 데이터에 계속 값을 대입 -> 차례대로 출력해나감
+  UDR0 = 'H'; UDR0 = 'E'; UDR0 = 'L'; UDR0 = 'L'; UDR0 = 'O';
+
+=> void Puts(char* data) {
+    for (int i = 0; i < strlen(str); ++i) {
+      while((UCSR0A & 0x20) == 0);
+      // 플래그 레지스터 - 출력 버퍼가 빌때까지 기다림
+      // 보레이트가 올라가면 누락 현상이 발생하는 것을 방지하기 위함
+      // UCR0A 의 0x20 (0b00100000) : UDREn:UART Data Register Empty
+      //      전송 버퍼가 다음 데이터를 출력할 준비가 되어 있음 - 1
+      //      전송 버퍼가 아직 준비되지 않음 - 0
+
+      UDR0 = str[i];
+    }
+  }
+
+ADC ? Analog : 연속적 정보, Digital : 불연속적 정보 (수치화, 양자화가 필요)
+  => Analog to Digital Converter 의 약자 : 아날로그 신호를 디지털 신호로 변환함
+  sampling : 단위 시간동안 얼마나 많은 데이터를 저장할 것인가
+    크기가 커질 수록 짧은 시간 동안 많은 데이터를 저장하게되고, 소리가 보다 연속적인 모습을 뜀
+    => 데이터의 크기가 커지고, 재현이 자연스러워짐
+    (가로축에 대한 정보)
+  quantizing(양자화) : 수집한 데이터를 몇가지의 수로 표현할 것인가
+    크기가 커질 수록, 해당 시간에서의 데이터가 정확해짐
+
+  온도계 :
+    ADC (현 제품 기준 검정색 쪼꼬미) - bottom view (핀을 눈앞에 뒀을 때)
+      left : v+ (pa0), middle : output (pf0), right : v- (ground)
+
+    ADMUX : ADC 설정 초기화 (ppt 사진 참고) - ADC 입력 채널 선택, 데이터 저장 순서,
+      기준 전압 : 0 - ADCREF 가 기본이 됨
+    ADCSRA :
+      ADEN : ADC 활성화 (enable) - ADEN 을 set 함으로써 범용핀 pf 0 ~ 5를 특수빈 ADC 핀으로 변환
+      ADSC : ADC 변환 시작 - 1 : 변환, 0: 종료
+      변환 모드 : 기본 - 단일 모드
+      인터럽트 : X
+      분주비 : 아날로그값을 얼마나 잘게 쪼겔 것인가 (sampling rate)
+
+    온도핀 : 전압의 세기로 온도를 (현 제품 기준 1v 정도가 100도씨, 0.5v 정가 50도씨..)
+      ADC0 에서 전압의 세기를 읽어 숫자로 바꿔줌
+
+      100도씨 : 205 => T도 : value
+      205 * T = 100 * value
+      T = value * 100 / 205
+
+    ADC : 최저 기준 전압부터 최고 기준 전압 사이를 양자화함
+      PA1 - AEREF : 5v 기준 전압을 제공
+
+DDR Data Direction Register : 0 은 input, 1 은 output
+  PIN 레지스터를 통해 입력값을 얻어올 수 있음 (ex : input = PINA;)
+
+  해당 핀은 항상 1(High) 또는 0(Low) 둘 중 하나의 상태가 되어야 함
+    -> Floating 상태 : 1도 0 도 아닌 아무런 입력이 가해지지 않음
+    -> 주변의 영향에 따라 어떤 값이 될지 모름
+
+  Pull-up 혹은 Pull-down 저항을 달아줘어 확실히 5v 혹은 0v 가 되어야함
+
+  스위치 - mid pin 은 항상 on, 왼쪽 오른쪽으로의 이동을 통해 양쪽의 핀에 전원이 들어가게 함
+  -> 스위치를 이용한 스위치 제작 (pinb 입력, porta 의 변환, portc 고정)
+
+interrupt : MCU 가 하고 있던 동작을 잠시 멈춘 후 다른 작업을 지시
+  + 전기신호가 변하는 시점을 탐지할 수 있음
+    -> backgraound 로 따라감 (thread 와 유사)
+      interrupt 를 background 로 박고, 다른 일을 할 수 있음.
+
+  pb0, pb1, pe0, pe2 : is 통신에서 사용
+
+  EIMSK : MCU 의 INTO 인터럽트 기능을 활성시킴 (비트와 핀이 매핑됨)
+  EICRA : 저기 신호가 들어오거나 나가는 시점 중 어느 지점에서 결한 것인가
+    0 에서 1로 갑자기 튀어오를 때 : Rising edge
+    1에서 0 으로 갑자기 떨어지는 시점 : Faling edge
+  ISR(INT0_vect) : 0번 벡터 사용
+  sei() // 인터럽트 기능 활성화 -> 소프트웨어적 인터럽트 활성화
+    => 인터럽트 활성화를 위해서는 하드웨어적, 소프트웨어적 인터럽트가 모두 필요함
+  cli() // 소프트웨어 인터럽트 기능 비활성화
+
+timer : 기계가 시간을 젠다 -> MCU 의 클럭을 세서 시간을 계산하게 됨
+  한클럭 - 올라갔다 내려와서 본래 시작원형으로 돌아온게 한클럭
+  아트메가 - 16M Clock
+
+  TIMSK : 타이머 기능 활성화 - 0001 : 총 네개 중에 하나만 활성화
+  TCCR0 : 타이머 세팅 값 설정 - 시간을 세는 방법에는 여러가지가 있음 (0001 : normal mode)
+  TCNT0 : 타이머 카운트 값 - 클럭에 맞추어 0x00 ~ 0xFF 만큼 돌림
+    -> 255 (0xff) 를 넘어가면 isr(timer0_ovf_vect) 가 호출됨 (정수 오버플로)
+    => 1초에 16만번 계산하는 mcu 면 255 번 도는건 0.1 초도 체 되지 않은 시간
+    => 추가적인 타이머를 위해 분주기를 형성
+
+  분주기 : 여러개의 클럭을 엮어 가상의 클럭을 만듬
+    -> 클럭이 느려지는 효과를 얻음
+    -> 255번만으로도 충분한 시간을 대기할 수 있음
+    -> TCC0 의 0 ~ 2 비트를 통해 설정 가능
+
+  그래도 빠른 클럭 -> overflow 카운트를 지정
+    -> 특정 카운트에 도달했을 때만 이벤트 형성
+  ex)
+  unsigned int cnt = 0;
+
+  ...
+  ISR(TIMER0_OVF_vect) {
+    if (++cnt == 100000) {
+      //event
+    } else if (cnt > 100000) {
+      cnt = 1;
+    }
+  }
+
+PWM Pulse Width Modulation : LED 의 밝기를 절반으로 줄인다면 ?
+  while (1) (검정색 : 흰색 = 1 : 1 ) => 회색이 됨
+  ==> 비율을 통해 원하는 색을 만들 수 있음
+  비율 - 폭 (pulse width) 의 변화 (modulation)를 통해 원하는 세기를 출력함
+    비율 == Duty Ratio  : High 와 Low 의 노출 폭을 변조함으로써 세기를 조정
+    PWM = High 와 Low 의 반복(Pulse) 의 폭 (Width)를 변조 (Modulation)
+
+  타이머를 이용한 pwm - 타이머가 백그라운드에서 돌기 떄문에 가능
+  delay 를 이용한 pwm - 다른 작업이 불가능함
+
+  타이머 모드 -> Fast PWM : OCR0 레지스터를 사용할 수 있음 (비교 대상 값을 지정)
+  TCNT0: 클럭에 맞추어 0xff 까지 증가
+  OCR0 : 비교 대상 갑과의 비교 후 두번까지 인터럽트 호출
+    -> compare 에서 키고, overflow 에서 끄고 -> 1:1 50퍼센트의 출력
+    compare 값의 변조로 duty ratio 를 바꿀 수 있음
+
+빛을 통한 무선 통신 -> 빛이 있을 때를 1, 없을 때를 0 으로 감지 -> 무선 통신 가능
+적외선을 통한 무선통신 -> 가시광선보다 진동수가 적은 적외선을 통한 통신
+  못생긴 문어 머리를 나한테 하고 mid : ground, right : 5v, left : out
+  적외선이 없을 때는 5v, 적외선이 있으면 0v - falling edge : 인터럽트 발생하게 설정
+    = 평소에도 적외선이 존재하기 떄문에 38Hz 이상인 적외선만 받음
