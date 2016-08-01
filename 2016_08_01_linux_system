@@ -50,4 +50,104 @@ OS ? 자원 관리자 사용자 프로그램 하드웨어 커널 시스템콜
         버스를 지나가는 패킷, 프로토콜을 PCI Express 프로토콜이라함
         PCI Bus 는 병렬, PCI Express 는 직렬
 
-        
+  OS 가 어느 범위까지 구현되어야 하고, 실제 OS 동작을 구현해보며 어케 해야 안전할지 얘기
+
+bios firmware
+운영체제가 하는거 ? 장치 관리, CPU memory 를 통한 자원 관리, 프로세스 관리
+  자원관리 : 장치관리, process, memory 관리
+  유저 관리 ? 접근 보안, 권한을 위한 관리
+  File system, 네트워크 관리
+
+커널의 기능을 사용하는 프로그램 => 시스템 프로그램
+  커널의 기능 ? 파일 시스템 제어, 장치 제어, 네트워크, 사용자 권한, 프로세스 메모리 제어
+
+  가상 머신 하나의 프로세스 안에서 새로운 프로세스를 실행 -> 프로세스 메모리 제어
+  대부분의 프로그램은 시스템 프로그램과 별반 다를바 없음
+  shell, compiler, debugger 등
+
+파일과 파일 시스템 ?
+  일반 파일 :
+  디렉토리
+  하드 링크, 심볼릭 링크 :
+    파일 시스템 ? ntfs, fat32, exfat, jfs, xfs 등 파일 시스템이 존재
+    inode, dnode 로 표현 : inode - 인덱스 노드, dnode - 디렉토리 노드
+      트리형태로 구현 -> 상대 위치 구현
+
+    하드링크 - 특정 노드와 같은 inode 를 가지고 있기에 실제로 같은 주소를 참조함
+    심볼릭 링크 - 상위 노드, 디렉토리와 파일 이름 (네임 스페이스) 를 기반으로 접근
+      더욱 상위 접근, 심볼릭 링크 파일 자체가 실제 path 를 그대로 가지고 있음
+      하드링크 보다는 약하지만, 만들기 쉽고, shell 을 속이기 쉬움
+
+    busybox ? /bin/ls, /bin/nslookup 과 같은 데이터들이 실제로는 /bin/busybox 를 가리킴
+      -> /bin/ls 와 같은 이름을 받아서 실제로 그 프로그램을 호출함
+
+  special files : kernel 의 특정 기능을 수행하는 객체
+    (kernel objects, block/character device, named pipe, unix domain socket)
+
+  /bin /sbin
+  /etc
+  /var
+  /opt
+  /dev /sys /proc
+  /lib /include
+  /usr /home
+    => unified namespace : 어떠한 기능을 하는 객체들이 통합된 이름공간 (dir path) 하에 모여있음
+      -> 기능별 통합된 이름 공간을 가지고 있음
+
+  virtual file system ? swap file system - 보조 저장 장치의 공간 (파일)을 메모리의 영역으로 사용
+    -> 가상화한 메모리 : 가상 파일 시스템
+  tmpfs ? 메모리 공간을 하드 디스크 영역처럼 사용할 수 있음 => block device
+
+sector 최소 데이터 저장 단위 512byte => block 논리적 저장 공간 : 하드 디스크 단위
+  => Page 메모리 관리 4kb (posix) : 메모리 단위
+
+page size ? MMU, page size 소스 코드 선언부
+cache controller mmu 에서 page size 의 처리 ? TLB 버퍼를 이용한 처리
+  TLB ? cache memory ?
+
+캐시 메모리 : L1, L2, L3 - 어드레스 부분의 변환이 필요
+  TLB -  메모리 물리 주소와, L3 cache memory 주소를 매핑하여 저장
+  -> posix 에서 4byte 단위로 메모리를 나눔 -> 4kb 페이지를 하나씩 가져옴
+
+  L3 -> L2 로 메모리 변환이 필요할 때 또 TLB 를 사용
+  L2 -> L1 로 메모리 변환에서 또 다시 TLB 가 함
+  L1 은 instruction 과 data 영역이 다름 : L1 이 나눔
+    인스트럭션은 중복되는 것이 굉장히 많음 -> instruction 은 남고, data 는 계속 바뀜
+    -> 50% 이상의 효율이 높아짐
+
+프로세스 : 실행중인 오브젝트 코드, CPU 의 특정 영역을 할당받았다는 증거
+  프로세스는 본인이 할당받은 자원이 컴퓨터 전체
+
+  object : linear chunk - 연속된 메모리 공간에 저장할 수 있는 선형 청크
+  메모리에 단위별로 저장되는 text, data, bss 이 오프젝트 코드이자 섹션
+
+  thread ? 하나의 프로세스 안에서 존재하는 여러 갈래 행동 단위 (메모리를 공유)
+    OS 에 thread 모델이 있어야 가능함
+
+  dtrace : 커널에 대한 트레이스, virtualbox 는 dtrace 를 지원함 (가상 머신 레이어에서)
+    => 시스템 전체를 대상으로한 트레이스가 가능함
+
+  최초의 프로세스, root process : init process 가 fork 하는 형태로 프로세스를 만들어냄
+    -> 부모 자식 관계로 프로세스가 트리를 형성함,
+      부모 프로세스가 사라지면, 자식 프로세스는 init 에 reparent 함
+      orphaned 고아 프로세스 중 실제 사용하는 메모리가 없으면 좀비 프로세스가 됨
+
+permissions ? rwxrwxrwx 9bit, 특수 character, 실제로는 숨겨진 3bit 가 있음 (setuid 등)
+signal ? ctrl + c 혹은 kill 명령어를 사용할 때 주로 발생 : 단방향 비동기식 알림 메시지
+프로세스 프로세스 간, 프로세스 커널 간, 본인 내에서 전달
+
+signal safe function ? 데이터의 오류를 줄이는 방법으로도 사용할 수 있음
+  signal safe 하지 않으면, 어디서 전송 중 종료되었는지, 어디서 끝났는지 모름
+  signal safe 의 경우, 어디까지 전달 했다, 버퍼까지의 데이터를 저장, 데이터를 통해 나중에
+    어디서부터 재시작할 수 있는지 알 수 있게 됨
+
+interprocess communication
+  pipe, name pipe, semaphores, message queues, shared memory, futexes
+  세마 포어 : 단일 자원의 여러 접근을 컨트롤하기 위해
+
+errno : 에러 메시지 스트링 - 나열되어 있는 모든 메시지에 관련된 기능은 모두 가지고 있음
+  에러에 대해서 번호를 정해 errno.h 에 저장되어 있음
+  외부의 프로그램이나, 프로세스로 부터 extern 하게 선언되어 있음
+
+
+linux system programming 
