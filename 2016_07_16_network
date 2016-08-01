@@ -52,12 +52,7 @@ arp 로 물어보고 arp 로 응답을 받으면 상대방의 mac 을 알 수 �
   attacker(자신), victim(상대방), gw(gateway)의 3개의 호스트가 같은 네트워크에 존재해 있다. victim(sender) > gw(target)로 가는 ip packet을 attacker가 수신할 수 있도록 victim의 ARP table값을 변조할 수 있는 ARP infection packet을 attacker에서 victim으로 전송하는 프로그램을 작성하라.
   [프로그램 실행 형식]
   send_arp <victim ip>
-  [리포트 제목]
-  char track[] = "취약점"; // "특기병", "컨설팅", "포렌식"
-  char name[] = "홍길동";
-  printf("[bob5][%s]send_arp[%s]", track, name);
-  메일 보낼 때 제목 좀 맞춰 주세요, 제발~~~
-  [프로그램 구현 절차]
+
   1. 자기 자신의 ip, mac을 얻어 온다. Windows는 IpHlpApi(MSDN 검색하면 다 나옴)로, Linux는 각자 알아서(ifconfig 실행 결과를 pipe로 받아 와 regular expression으로 parsing하여 알아 오든지 마음대로).
   2. gateway의 ip를 알아 온다(요것도 방법을 스스로 찾으세요).
   3. victim과 gateway에 대해 각각 ARP_REQUEST를 직접 날려서 mac 주소를 물어 보고 그 응답을 받아서 mac을 구해 온다.
