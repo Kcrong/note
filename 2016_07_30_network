@@ -13,3 +13,27 @@ netfilter tutorial : http://www.gilgil.net/communities_kr/826200
              - n - t
                    |
            b - a - n - a - n - a
+
+          [리포트]
+           유해 사이트를 탐지 및 차단하라.
+           [1단계 - 탐지]
+           송수신되는 패킷을 잡아서 HTTP인지 판별 > TCP Data부분에서 URL을 추출 > 이후 추출된 URL이 mal_site.txt에 속해 있는지 확인 > 확인이 되면 text file로 로그를 남길 것. pcap, arpspoof, windivert(windows) netfiler(linux) 아무거나 사용해도 무방.
+           [2단계 - 차단]
+           in-path(arpspoof, windivert, netfiler) 방식 중에 하나를 골라 차단(relay, forward, verdict을 안해 주면 됨)까지 해 볼 것.
+           [3단계 - 개선]
+           네트워크 상으로 잡힌 URL이 mal_site.txt에 있는지 확인하는 로직을 개선시켜 볼 것. 전제 조건은 mal_site.txt에 URL 갯수가 무지 크다(대략 100만개)라고 가정을 함. 메모리와 속도를 잘 고민해야 함(정답은 없음).
+           [프로그램 실행 형식]
+           mal_site
+           [리포트 제목]
+           char track[] = "취약점"; // "특기병", "컨설팅", "포렌식"
+           char name[] = "홍길동";
+           printf("[bob5][%s]mal_site[%s]", track, name);
+           [제출]
+           2016.08.12(금) 23:59
+           소스 코드는 가급적 C, C++(다른 programming language에 익숙하다면 그것으로 해도 무방).
+           OS는 windows나 linux.
+           bob@gilgil.net 계정으로 git repository 주소를 알려 줄 것.
+           [ps]
+           1단계까지만 해도 과제를 한 것으로 인정하겠습니다. 그대로 가급적이 2번이나 3번도 해 보시길. 과제하는 과정에서 스스로 많은 것을 배울 수 있을 겁니다 ^^
+           mal_site.txt는 다음 URL에서 다운받을 수 있습니다. 외부 공개는 가급적 자제바랍니다. http://test.gilgil.net/mal_site.txt
+           ‪#‎김현우안습길길이도안습ㅠㅠ‬
