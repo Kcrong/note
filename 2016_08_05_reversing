@@ -1,0 +1,50 @@
+함수를 NAKED 로 선언하면, calling convention 이 일어나지 않음
+  __declspec(naked) 혹은 NAKED
+  기존의 cdecl, stdcall, fastcall 외의 convention 의 경우, 이와같이 구현할 수도 있음
+
+int* __declspec(naked) get_addr() {
+  __asm {
+    call _next
+_next:
+    pop eax
+    ret
+  }
+} //pop eax 의 값이 return 됨
+
+void __declspec(naked) test(char *path) {
+  __asm {
+    push ebp
+    mov ebp, esp
+    push [ebp + 8]
+    call LoadLibraryA
+    retn 4
+  }
+} //LoadLibraryA 를 통한 dll 로딩
+
+하고 싶은 코드를 dll 로 컴파일 해서 dll 로드만을 코드 인젝션하면, 코드가 그 안에서 실행됨
+SetWindowsHookEx ? 모든 프로세스에 인젝션, 메시지 후킹이 가능해짐
+
+DLL Main : DLL Main 이 로딩될 때마다 호출됨 - 스레드 생성, 스레드 소멸, 프로그램 호출, 프로그램 반환
+  : 한번만 실행시킬 수 있는 방법론이 필요함 ex) mutex, 전역 변수
+
+dll 에서는 자동으로 함수를 export 해주지 않음
+  => __desclspec(dllexport) 혹은 exports.def 를 통해 export 할 함수를 정해줘야 함
+
+//exports.def
+LIBRARY TESTDLL
+EXPORTS
+  myMessageBoxA @1 // 첫번쨰 함수 order number 혹은 함수명을 직접 제공
+
+C++ 에서는 오버로딩이 가능한데, 이름을 맹글링 하기 떄문
+  실제로는 함수의 export할 이름을 만들 떄, 반환형, 인자 calling convension, declspec 을 도합해서 이름을 생성함
+  -> 실제로 export 된 함수 이름은 인자, 반환형과 같은 요소들에 의해 실제이름에서 왜곡됨
+  -> C 에서는 이를 지원하지 않기 때문에 extern "C" 를 통해 맹글링을 일부 제거할 수 있음
+
+  또는 exports.def 에서 익스포트할 함수명들을 직접선언할 수 있음
+
+
+windows 는 import table 을 iat 테이블에 저장함 :
+  iat 테이블을 덮어쓰면, 원하는 함수를 호출할 수 있음
+
+  image base 는 GetModuleHandleA(null) 을 통해 구할 수 있음
+  virtualprotect 를 통해 iat 의 권한을 writeable 하게 바꿔야 함
