@@ -31,5 +31,4 @@
 24. bug hunting
 25. network - windivert
 26. YK_sorting - done
-27. network - http dropper
 28. iat hook
