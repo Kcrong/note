@@ -1,0 +1,51 @@
+Ethernet header = 14bytes
+MTU : Maximum Transfer Unit = 1500 bytes
+  IP Header : default 20 bytes
+  TCP Header : default 20 bytes
+    => TCP data 최대 크기 = 1460bytes
+=> 한번에 보낼 수 있는 최대 패킷의 크기 : 1514 bytes
+
+TCP data 가 1470 bytes 라면 ? 1460 bytes + 10 bytes 로 보냄
+  => TCP 계층에서 데이터를 나눌 경우 SW 단에서 데이터를 쪼갬 => CPU 부하
+
+  Jumbo frame : 큰 데이터를 Ethernet LAN Card 단에서 쪼개서 나감
+    (Ethernet 에서만 MTU 를 국한 시킴)
+
+    나갈 때 : 1470 bytes in sw
+      => 1460 bytes + 10 bytes in hw
+    들어올 때 : 1460 bytes + 10 bytes
+
+TCP Flags
+  f : fin - 연결을 끊음 (정상 종료) : fin 후 fin+ack 이 오면서 연결이 종료됨
+  s : syn
+  r : rst - 리셋, 연결을 끊음 (강제 종료) : 아무것도 안옴
+  p : push - 어플리케이션 레벨로 빠르게 올릴 것
+    => 최근에는 모든 TCP 에 들어가, 의미가 없음
+  a : ack - acknowledgement Number 이 정상인지 비정상인지
+    => Syn 은 정송자가 랜덤으로 정해 보내지만, ack number 은 알지 못함
+    => ack 0 flag 를 통해 유효하지 않음을 알림
+
+이전에 sequence number guessing 공격이 발생함
+=> sequence number 을 random generate 함
+
+TCP : 재전송을 책임짐 :ftp, web
+UDP : 재전송을 책임지지 않음 : game info
+
+client      server
+1000         2000
+------aaa-----> syn : 1000, ack : 2000
+<-------------- syn : 2000, ack : 1003
+------bbb-----> syn : 1003, ack : 2000
+<-------------- syn : 2000, ack : 1006
+
+
+
+------aaa-----> syn : 1000, ack : 2000
+------bbb-----> syn : 1003, ack : 2000
+------ccc-----> syn : 1006, ack : 2000
+---aaabbbccc--> syn : 1000, ack : 2000
+<-------------- syn : 2000, ack : 1009
+//MTU 보다 크지 않으면, 전송되지 않은 데이터들을 한번에 보냄
+
+과금은 마지막 syn 에서 시작 syn 을 빼서 계산함
+(중간에 retransmission 을 제외한 정상 송신 패킷에만 과금함)
