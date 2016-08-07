@@ -27,8 +27,9 @@
   - 2016_07_27 dakuo - done
 21. BoB wiki - done
 22. code Injection - done
-23. embeded led show
+23. embeded led show - done
 24. bug hunting
 25. network - windivert - done
 26. YK_sorting - done
 28. iat hook
+29. network - capture

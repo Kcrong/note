@@ -1,0 +1,98 @@
+하드웨어 통신 프로토콜
+  UART (Universal asynchronous receiver / transmitter)
+  I2C (Inter-Integrated Cirtuit)
+  SPI (Serial Peripheral Interface)
+
+  주변 장치와의 통신
+    ex) Camera, Zigbee
+  기기와 기기 사이의 통신
+    ex) 가전기기 <-> 전자레인지
+    ex) 가전기기 <-> 냉장고
+
+  동기 통신 - Clock 을 기준으로 데이터를 참조 : 최소 2회선이 필요
+    Clock 의 rising edge 혹은 falling edge 에 맞추어 데이터를 받아들이고, 보내기 시작함
+    (rising edge : 0 -> 1 로 상승하는 순간, falling edge : 1 -> 0 으로 내려가는 순간)
+  비동기 통신 - 시간을 기준으로 데이터 참조 : 최소 1회선 필요
+    초당 몇개의 데이터로 나눌지 약속하여 데이터를 분할 송신, 수신
+    데이터의 시작과 끝을 알리기 위해 start bit 와 stop bit 가 첨부되어 전송
+
+  직렬 통신 : 데이터 송신 시 한개의 회선을 이용 (속도가 느리지만, 비용이 절감됨)
+  병렬 통신 : 데이터 송신 시 다수의 회선을 이용 (속도가 빠름, 비용이 많이 듬)
+
+UART : 범용 비동기 송/수신기
+  가장 오래된 하드웨어 통신 프로토콜
+  직렬 통신 (데이터 송수신에 하나의 회선을 이용)
+    TX : 송신 라인
+    RX : 수신 라인
+  Baudrate 를 동기 신호로 사용
+
+I2C (TWI : two wire interface) : 필립스사에서 개발
+  1:N 통신이 가능, 양방향 통신 가능
+  직렬 통신, 동기 방식
+    SDA : 데이터 회선
+    SCL : 클럭 회선
+
+SPI : 모토롤라에서 개발 - SOcket 의 server, client 개념과 유사
+  1:N 통신 가능 (하나의 Master, 다수의 slave)
+  3개의 라인 사용
+    MISO : Master-In, Slave-Out (RX)
+    MOSI : Master-Out, Slave-In (TX)
+    SCK : clock
+
+하드웨어 디버깅
+  기기의 상태 값을 실시간으로 출력하는 디버깅 방법이 필요
+  -> LED 로 출력 = 표현의 한계
+  -> LCD 로 출력 - 구현이 어렵고, 화면이 작음
+  -> 네트워크 ? 무의미
+  => 단순한 UART 프로토콜이 적격함
+
+UART : 프로토콜이 단순, 장비가 쌈
+  커널, OS 메시지 : 커널, OS 정보 획득
+  디버그 메시지 : ex) printf("LED 1 is lighted")
+  오류 메시지 : sementation fault, command not found
+  Hidden or Setting Menu 접근
+  Bootloader : 펌웨어 획득, 새로운 펌웨어 Writing
+  Command Shell : 펌웨어, 바이너리, 동적 분석이 가능
+
+필요 장비
+  USB to TTL 장비 (ex) Rabiit uart)
+  Jumber cable
+  Multitester
+  Logic Analyzer
+
+UART Pin
+  TX : 데이터 송신핀
+  RX : 데이터 수신핀
+  GND : 그라운드
+  VCC : 전압
+
+  관련 USB 드라이버 설치 -> 점퍼 케이블 연결
+  -> 터미널 소프트웨어 설치 -> 연결 정보 설정 -> 연결 진행
+
+logic analyser
+  https://www.saleae.com/?gclid=CNvbnrDhrs4CFcKWvQodrGsEaQ 설치
+  uart 장비에 A 를 1초마자 출력하는 프로그램 작성
+  logic analyser 의 channel 1 과 장비의 TX 핀 (atmega128a 의 경우 pe1) 을 연결
+  logic analyser 과 atmega128a 의 gnd 핀 연결 (usb로 전원 공급시 무의미)
+
+  saleae logic 프로그램 실행 후, usb 연결 후 5sec duration으로 시작
+  => 5개의 샘플 채집
+
+  결과 ; 한 샘플에서 10개의 비트 책정
+  => start bit + ascii 8bit ('A') + stop bit
+
+  uart : idle 에 1bit (ttl 회로의 특징)
+    => start bit : falling edge 후 파싱해 나감
+    비트 전송 : LSB -> HSB 로 전송 ('A' = 0b01000001 => 출력 비트 : 100000010 lsb 부터)
+    LSB 부터 전송하는 것이 약속 되어 있음.
+
+  사용 예제 : iptime - tx rx gnd vcc 판별
+    iptime 을 껐다 키면서 10초 정도 스니핑
+    => vcc : 일정하게 높은 전압 유지
+    => GND : 일정하게 낮은 전압 유지
+    => tx : os booting msg 등이 출력됨 (비트의 변화)
+    => rw : 아무 일도 일어나지 않음.
+
+UART : 프로토콜
+HW Spec : RS232 - UART 통신을 장거리에서 진행하기 위한 스펙
+  전압 : 12v, 최대 5m, RS 시리즈가 많음 (그에 따른 스펙이 조금씩 다름)
