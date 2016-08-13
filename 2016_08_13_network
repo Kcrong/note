@@ -1,0 +1,23 @@
+패킷이 들어옴 -> Host 검색 후 문자열 추출 (strstr);
+  : 속도가 느림 -> Boyer_Moor Algorithm, KMP 와 같은 알고리즘을 통해 속도 개선
+    Aho-Corasick 을 통한 멀티 패턴 매칭
+
+Boyer_Moor : 뒤에서 부터 검색 + skip counter table 형성
+  원문 : zzzzzzzzzzabcde
+  패턴 : abcde
+  ex) z 와 e 를 비교 : 최소 5칸 skip 해야 패턴이 나올 가능성이 생김
+    => z 가 나왔을 때 e 를 비교해야 할 경우 5칸을 점프해야함을 기록
+      => Bad Character Table (스킵해야하는 갯수 테이블)
+
+Out of path 에서 packet injection 을 통한 통신 차단
+TCP header : fin flag 설정, sequence 넘버 계산 (tcp datalength + seq)
+
+fin -> fin ack -> ack : 종료
+rst : 종료
+  => backword : server_rst, client_fin
+(request time out 0 : 빠른 처리가 필요함)
+
+TTL : Time To Live 통신 중 거친 라우터의 수 (홉 카운트)
+  => TTL 은 기기에서 확인하지 않기 때문에 보통 64 + random 수를 적용하여 injection 함
+
+TCP, IP 체크섬 계산이 필요함
