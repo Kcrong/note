@@ -1,0 +1,51 @@
+wifi
+  SNR : Signal to Noise Ratio - 시그널이 노이즈로 감소된 비율
+  RSSI : 수신단에서 받아들인 신호 세기 - LAN 카드에서 받은 신호의 세기
+  Channels : wifi - 2.4GHz, 5GHz(802.11n 이후)
+    주파수가 높을수록 속도는 빠르지만, 손실이 높음
+    2.4Ghz 는 간섭이 심함 - Bluetooth, 전자 레인지
+      -> 5Ghz 로 넘어가는 동기 부여
+
+  2.4Ghz 를 14Channel 로 나누어 사용
+    : 채널 사이의 간섭이 심하기 때문에, 최대한 사용 체널에서 멀리 떨어진 체널로 배정하기 위해 노력
+
+  Station - NIC 를 가지는 디바이스
+  Access Point
+  Distribution System - AP 가 연결된 유선 네트워크
+
+  BSS - Basic Service Set
+  SSID - Service Set Identifier : 네트워크 이름, BoB, iptime 등
+  BSSID - Basic Service Set Identifier : AP 의 Mac address
+
+  DCF - 세션의 사용 정보를 확인해서 사용중일 떄만 데이터 전송
+
+  CSMA/CD : collision detecting 을 통해, 다른 데이터가 회선으로 전송 중이면, 대기함
+  => But wireless 의 경우 LAN 어뎁터는 collesion detecting 을 할 수 없음
+  => CSMA/CA with MAC 의 발전
+  Hidden stations ?
+
+  virtual carrier sensing
+    RTS/CTS 패킷을 통한 duration 지정 후 대기
+    (rts : recieve , cts : clear)
+    -> 중간에 낀 매체가 데이터를 교통 정리 처럼 정리
+
+    프레임마다 ack 를 보내면 과부하가 발생 -> 프레임 전체 송신 후 한번에 ack 전송
+
+dst addr, src addr, recver address, Transmitter address
+mac management frame ? beacon, probe request, response
+
+AP -> Beacon 해킷 전송 : passive scanning
+  Beacon 을 안날리면 ssid 를 숨길 수 있음
+
+802.11 Auth -> WEP 인증
+association req / res 데이터 전송 요청, 응답
+
+연결 종료 : station 에 전송 가능 - deauth packet
+wep ? 컴퓨터가 늘어나다 보니 쉽게 공격이 가능해짐
+
+
+ssid 를가지고 fuzzing 하다 보면 머가 죽을지 모름
+
+wifi (KT_WLAN ... iptime 등) 이 정상인지 확인할 방법이 없음
+
+과제 : MITM 을 통해서 휴대폰으로 아무 웹사이트 로그인하는 패킷을 갈취해보세요
