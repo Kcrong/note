@@ -32,6 +32,8 @@
 25. network - windivert - done
 26. YK_sorting - done
 27. network - capture - X
+28. https capture
+29. hackrf translation
 
 ##study
 
