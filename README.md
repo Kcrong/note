@@ -28,8 +28,13 @@
 21. BoB wiki - done
 22. code Injection - done
 23. embeded led show - done
-24. bug hunting
+24. bug hunting - done
 25. network - windivert - done
 26. YK_sorting - done
-28. iat hook
-29. network - capture
+27. network - capture - X
+
+##study
+
+1. iat hook
+2. dll Injection
+3. windows reversing
