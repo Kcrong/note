@@ -19,4 +19,5 @@ ISM band : Industrial, Scientific, and Medical
 
 ASK, FSK modulation
   ASK : 1일 때 진폭을 크게, 0일땐 진폭을 작게함 (Amplitude)
+    ASK-OOK : On Off Keying , 0 일때는 아예 보내지 않음
   FSK : 1일 때는 파장을 짧게, 0일땐 파장을 길게함 (Frequency)
