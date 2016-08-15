@@ -34,9 +34,13 @@
 27. network - capture - X
 28. https capture
 29. hackrf translation
+30. network fin, rst
 
 ##study
 
 1. iat hook
 2. dll Injection
 3. windows reversing
+
+##todo
+1. yisf writeup - done
