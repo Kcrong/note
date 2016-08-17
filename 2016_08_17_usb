@@ -1,0 +1,46 @@
+사용자가 커널레벨을 몰라도 사용할 수 있는 장치 - USB, Ethernet
+  사용자가 알지 못하는 레벨에서 침투 당할 경우
+
+USB - 시리얼 통신, 직렬 통신
+  Half Duplex : tx 와 rx 가 동일함
+  Full Duplex : tx 와 rx 가 분리됨
+
+  만약, 128GB 의 크기를 tx 로 보낼 때, rx 는 놀게 됨
+  => 이럴 떈 full duplex 가 비효율적
+
+  rx 와 tx 를 유동적으로 사용했을 때 가장 효율적
+  => Ethernet : 드라이버 수준에서 rx 와 tx 를 유동적으로 변경할 수 있음
+        Full duplex 와 half duplex 의 전환
+        fullduplex 에서 rx 와 tx 의 비대칭적 속도
+
+libusb : 유저레벨에서 usb 를 제어함
+  usb 장치를 제어함 ? usb 메모리 덤프 외에도
+    usb to serial converter 등의 기능을 수행할 수 있음
+
+usb : 4가지 전송 모드
+  control - USB 장치 등록, 플러그 제거 (Hub 수준에서의 전송)
+  bulk - 기본적인 데이터 전송
+  interrupt - 장치들끼리 충돌이 일어났을 떄, 에러가 일어났을 때
+    통신규약 : 에러에 대해 100% 커버를 하려 함
+  isochronous
+
+2개의 인터페이스
+  synchronous
+  asynchronous
+
+serial bus + daisy chain 통신
+  => 연속적으로 연결되어 있는 하드웨어 통신이 가능함 (최대 255개)
+
+Major number, Minor Number, USB ID
+  장치와 허브간에 Major, Minor 채널이 형성
+  Hub 가 USB ID 를 가지면서 상위 호스트와 Major, Minor 채널이 형성됨
+  => 한 채널에서 오류가 발생할 경우, 컴퓨터가 Hub 에서 USB ID 를 서칭하여,
+    Major 채널과 Minor 채널을 새로 채득하고, 변경하기를 연속
+    => 하나에서 오류가 발생해도 보편적으로는 정상 통신이 가능해짐
+
+USB 장치를 삽입 -> 장치 관리자에 장치 등록
+  -> USB 장치에 대한 메모리 영역 할당
+  -> USB 윈도를 통해 패킷 통신 (8byte 단위)
+
+libusb 를 통한 usb 컨트롤 - 과제
+  lsusb -v 옵션의 값들을 출력하는 프로그램을 구현
