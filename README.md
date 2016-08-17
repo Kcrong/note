@@ -34,7 +34,7 @@
 27. - [ ] network - capture - X
 28. - [ ] https capture
 29. - [ ] hackrf translation
-30. - [ ] network fin, rst
+30. - [X] network fin, rst
 31. - [ ] lsusb -v implementation
 
 ##study
