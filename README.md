@@ -33,7 +33,7 @@
 26. - [x] YK_sorting
 27. - [ ] network - capture - X
 28. - [X] https capture
-29. - [ ] hackrf translation
+29. - [X] hackrf translation
 30. - [X] network fin, rst
 31. - [X] lsusb -v implementation
 
