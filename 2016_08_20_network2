@@ -24,7 +24,8 @@
     => bypass 가 가능함
     GET https://wwww.blockedurl.com/ HTTP/1.1
     Host: www.blockedurl.com
-  6. 쿼리 두개를 붙여서 전송
+  6. 쿼리 두개를 붙여서 전송 : 장치가 첫번째것만 검사하고, 두번째 것을 검사하지 않음
+      : 그에 반해 web server 에서는 두개의 쿼리를 같이 처리함
     GET / HTTP/1.1
     Host: www.google.co.kr
 
