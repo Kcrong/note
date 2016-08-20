@@ -1,0 +1,32 @@
+차단 페이지
+  DNS Blocking
+    => dns 쿼리 전송 - dns sink 를 통해 사전에 지정해논 ip 를 보내줌
+    => 본 사이트에 접근 불가
+  URL Blocking - HTTP Content : TCP Data 를 보고 차단
+    GET / HTTP1.1
+    Host: www.naver.com
+    => Host 와 상대 주소를 조합 -> URL 형성
+    : HTTP request 여부를 확인 (GET, POST)
+    => URL 을 뽑아냄 => DB 검색 => 차단
+
+우회 기법
+  proxy : web proxy, ip port proxy, vpn, tor 등등
+  Hotspot shield : routing table 을 조작
+  data server : google 에서 웹을 caching 함
+    => 본서버에 접속하기 전에 google 에서 caching 한 웹을 보내줌
+
+  1. host 에 dns 대신 ip 전송 => web hosting 이 host 헤더를 참조하기 때문에 안하는게 좋음
+  2. tcp 패킷을 잘라서 전송 => 요즘은 같은 ip 끼리 패킷을 합쳐서 검사하기 때문에 효과가 없음
+  3. dodge web browser => http 패킷 첫라인을 개행한 후에 헤더를 추가함
+    => 첫줄에서 GET, POST 를 검사하기 때문에 bypass 됬었음 (지금은 막힘)
+  4. GET 이나 POST 앞에 공백 => 올해 초에 막힘
+  5. 현재 장치는 https 를 붙일 경우 보안 통신을 하기 때문에 해석을 포기함
+    => bypass 가 가능함
+    GET https://wwww.blockedurl.com/ HTTP/1.1
+    Host: www.blockedurl.com
+  6. 쿼리 두개를 붙여서 전송
+    GET / HTTP/1.1
+    Host: www.google.co.kr
+
+    GET / HTTP/1.1
+    Host: www.blockedurl.com

@@ -42,6 +42,7 @@
 1. iat hook
 2. dll Injection
 3. windows reversing
+4. develop proxy
 
 ##todo
 1. - [x] yisf writeup
