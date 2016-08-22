@@ -1,0 +1,8 @@
+ip protocol field : 6 - tcp
+
+sequence, acknowledge : 송수신에서 오류를 검증하기 위한 매커니즘에 이용
+  규칙성을 가진 syn 과 ack 를 통해 정상적인 송수신을 확인할 수 있음
+
+  초기값만 안다면, 추후의 통신에 사용될 syn 과 ack 를 추측할 수 있고,
+    이는 거짓 패킷을 보냈을 때, 상대방을 속이기에 충분하다
+    -> 실제로 ip spoofing 에서 사용됨
