@@ -36,6 +36,7 @@
 29. - [X] hackrf translation
 30. - [X] network fin, rst
 31. - [X] lsusb -v implementation
+32. - [ ] network zigbee vuln report
 
 ##study
 

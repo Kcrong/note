@@ -1,0 +1,46 @@
+Visual studio options
+:C/C++ General
+  Additional Include Directories : 추가 인클루드 디렉토리
+  Debug Information Format : pdb 를 사용할거냐 디버깅 인포를 포함한 형식을 쓸거냐.. 등
+  warning level : W1 - 진짜 심각한 워닝만 보여줌
+    W2 - 왠만한 워닝을 보여줌
+    W3 - 보편적인 워닝을 보여줌
+    W4 - 그냥 이상하면 워닝을 보여줌
+  Treat Warnings As Errors : 워닝 => 에러
+  SDL Checks : 보안 체크
+  Multi Processor Compilation : 빠른 컴파일을 위해 멀티 프로세스로 컴파일함
+
+:C/C++ Optimization
+  Optimization :
+    O1 - Minimize Size
+    O2 - Maximize Speed
+    O3 - Full Optimization
+    => O1, O2 중 어떤게 빠른지는 그 때마다 다름
+
+기본적으로 OS 는 4kb 페이지를 사용함
+메모리를 4kb 로 자르고, 각각의 페이지마다 0번부터 시작하는 Page Frame Number : PFN 을 할당함
+
+Process : EPROCESS 구조체 안에 PageTableBase(?) 포인터에 프로세스의 CR3 값을 저장함
+  CR3 -> PDE + 10bits -> PTE + 10 bits -> PFN + 12 : 물리 메모리 참조
+  물리 메모리가 꽉차면 ? 페이지를 HDD 에 저장 : Memory IO 발생 - 몇십만배 느려짐 (페이지 교체 정책)
+    => 메모리의 효율적 활용과, Context Change 를 최소화 하는 것이 중요함
+
+보통 Maximize Speed 를 쓰면 파일 크기가 커지고, Minimize Size 를 쓰면 파일이 줄어듬
+  => 파일 크기가 작을 때 페이지 교체가 줄어듬
+  => 환경에 따라 Minimize Size 가 더 빨라질 수 있음
+
+
+source - compile -> object - link -> binary
+
+프로세스 하나에 4GB 가 할당됨
+  1. 0 ~ 2GB : OS
+  2. 2GB ~ 4GB : Host
+    0x000400000 - PE 헤더가 올라감
+    DLL Loading - 프로세스마다 박히는 dll 의 메모리 주소가 같음
+
+Calling Convention : 호출 규약
+
+Kernel:
+Windwos : 4개의 커널
+  싱글 CPU, 싱글 아스키,
+  
