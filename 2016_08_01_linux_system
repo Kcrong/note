@@ -1,4 +1,4 @@
-cho.sungjae@gmail.com : 커널 시스템 프로그래밍을 진행할 것
+ 커널 시스템 프로그래밍을 진행할 것
 
 OS ? 자원 관리자 사용자 프로그램 하드웨어 커널 시스템콜
 시스템콜 ? 윈도에서 시스템 함수를 호출하는것 ?
@@ -150,4 +150,4 @@ errno : 에러 메시지 스트링 - 나열되어 있는 모든 메시지에 관
   외부의 프로그램이나, 프로세스로 부터 extern 하게 선언되어 있음
 
 
-linux system programming 
+linux system programming

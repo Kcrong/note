@@ -33,15 +33,17 @@
 26. - [x] YK_sorting
 27. - [ ] network - capture - X
 28. - [X] https capture
-29. - [ ] hackrf translation
+29. - [X] hackrf translation
 30. - [X] network fin, rst
-31. - [X] lsusb -v implementation (non mailing)
+31. - [X] lsusb -v implementation
 
 ##study
 
 1. iat hook
 2. dll Injection
 3. windows reversing
+4. develop proxy
+5. develop arp spoofing tool
 
 ##todo
 1. - [x] yisf writeup
