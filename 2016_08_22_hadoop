@@ -55,3 +55,10 @@ Map Reduce : Key, value 기반의 프로그램
     => shuffling : map 을 어떠한 기준에 따라 다시 분배함
     => reducing : map 을 reducer 함수를 통해 하나로 뭉침
     => final result : reducing 결과물을 하나로 합침
+
+취약점 : NameNode 공격, fake node 의 혼동
+  기본적으로 NameNode 는 많이 오픈되어 있음
+    => 시스템 취약점을 통해 권한 획득이 가능해짐
+  fake node 나 name node 를 통해 데이터를 도청할 수 있음
+    => 데이터 권한 관리가 중요함
+    
