@@ -1,0 +1,80 @@
+windows app vs console app ?
+  windows app : windows msg 처리 루틴이 존재
+  console app : sinwods msg 처리 루틴이 존재하지 않음 (sub system 이 다름)
+
+CreateProcessA (ANSI) vs CreateProcessW (WideChar)
+  MultibyteChar - WideChar (unicode)
+
+kernel : wide character (UCS2)
+  kernel32.dll 에서는 CreateProcessA 를 받았을 때,
+  ansi char 을 wide char 로 변경하여 CreateProcessW 로 재호출
+
+데이터 전송 : utf-8
+  utf-16 가 2byte 와 4byte 로 문자를 컨버팅하고, 메모리를 고정양을 기본으로 사용하는 반면,
+  utf-8 은 가변 문자열의 처리가 편리하고,
+    ascii 영역의 문자를 1byte 로 사용하는 등, 메모리 사용량이 적기에,
+    네트워크 등으로의 전송에서 유리함
+
+  ucs2 : 알고리즘은 단순하지만, 고정 메모리를 항상 사용해야됨
+    => OS 같이 로컬에서 리소스를 관리할 수 있는 경우,
+        메모리 사용량 보다 빠른 처리가 중요하기 때문에 UCS2 를 사용함
+
+create process : debugprocess flag 를 세팅
+  WaitForDebugEvent : 디버기가 실행되면서 step 이벤트들을 함수를 통해 리턴해줌
+    event 에 담겨있는 정보를 파싱
+  ContinueDebugEvent : 디버기를 재시작함
+
+precompiled hdr : 컴파일 타임에서 의존성 최상단의 파일을 찾아감 (cpp)
+  => 문법 검사 => obj 파일 생성 => 하단 파일 문법 검사 => 하단 파일 obj 파일 생성...
+
+  같은 헤더파일을 여러번 호출하면, 여러번 obj 파일을 만들게 되고, 속도가 느려짐
+  => 내용이 바뀌지 않는 헤더 : pre compiled header 로 정의
+      한번만 컴파일 후, 후에 참조하는 모든 파일에 pch 를 붙임
+
+  stdafx.cpp 를 precompile create 명시 -> 외적인 파일 : precompile use stdafx.h 명시
+
+CreateProcessDebugEvent : 프로세스 생성시 발생
+CreateThreadDebugEvent : 스레드 생성시 발생
+ExceptionDebugEvent : 디버기에 예외 발생
+ExitProcessDebugEvent : 프로세스 중료시 발생
+ExitThreadDebugEvent : 스레드 종료시 발생
+LoadDllDebugEvent : DLL 로드시 발생
+OutputDebugString : 디버깅 메시지를 출력
+RipDebugEvent : 외부 요인에 의해서 디버기가 종료됬을 때 발생
+UnloadDLLDebugEvent : DLL 이 언로드 될때 발생
+
+interrupt 는 보통 어플리케이션에서 운영체제로 제어권을 이동시키기 위한 메커니즘
+  software interrupt : asm 으로 int 3 과 같은 명령어가 실행될 떄 발생
+  hardware interrupt : 하드웨어가 발생 - 마우스, 키보드
+  exception : 잘못된 연산에서 발생
+
+인터럽트도 무시할 수 있는 것이 있고, 무시할 수 없는 것이 있음
+  cli : slave 와 master 사이의 전선을 제어함 (interrupt 제어)
+  maskable interrupt : cli 에 의해서 무시당할 수 있음
+  non-maskable interrupt : cli 에 의해서 무시당할 수 없음
+
+interrupt 가 발생하면, eip 가 바뀜 - 복귀주소가 fault 난 지점인가 아닌가
+interrupt 1 : debug exception
+interrupt 3 : one byte interrupt
+interrupt 6 : invalid op-code
+
+fault : 복구가 가능한 예외
+trap : 실행한 경우에 발생하는 예외
+abort : 복구가 불가능한 예외
+
+interrupt 발생 -> Interrupt Descriptor Table 에서 interrupt 번호를 인덱스로 핸들러 호출
+  idt 를 후킹하여 궁극적인 anti dbg 를 실현할 수 있음
+
+cpu 마다 interrupt 가 동시에 발생하면, 동기화를 진행해야 함 (atomic 하지 않음)
+dbg register 8개 있음
+  DR0 ~ DR3 : address register
+  DR4 ~ DR6
+  DR7, DR8
+
+userlevel thread context에서 발생한 interrupt 가 kernel 로 내려가면
+  segment register 가 가리키는 값들이 바뀜
+  => mapping 이 필요함
+
+디버거 레지스터 : single step flag 가 존재, 한 instruction 마다 single step exception
+
+int3 => exception debug info

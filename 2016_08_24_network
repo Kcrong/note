@@ -1,0 +1,38 @@
+ssh
+  : telnet 의 보안을 보완함
+  : forwarding, terneling 기능을 제공
+
+tunneling
+  : 기존의 프로토콜에서 ssh 를 프로토콜의 터널처럼 이용하여 보안적 요소를 추가
+
+  local tunneling
+    : 원격지에 ssh 서버를 설치
+    => 특정포트를 통해 데이터를 ssh 로 전송
+    => ssh 에서 암호화, 원격지로 전송
+    => 원격지에서 데이터를 복호화
+    => 원본 데이터를 본래 목적지로 전송
+
+  Ex) ssh -L 5000:www.naver.com:80 hosts@ssh_server.com
+    local forwarding : local 에서 tunnel을 통해 원격지의 application 으로 데이터를 전달
+      = proxy 와 같은 역할을 함
+      = log 기록이 secure shell 로 남음 : 익명의 효과를 주기도 함
+
+  Ex) ssh -R 30000:www.naver.com:80 hosts@ssh_server.com
+    remote forwarding : 원격지에서 tunnel을 통해 local의 application 으로 데이터를 전달
+
+  Ex) ssh -D localPort ssh_server
+    dynamic forwarding : 하나의 포트를 이용하여 여러 어플리케이션으로 포워딩함
+
+ssl
+  supported algorithms, random number ->
+  <- algorithm, random number
+  <- certificate
+  encrypted pre-master secret ->
+  calculate key
+  <- sends finished message ->
+
+  키가 전달되는 것이 아님
+  pre-master secret 이 서버의 공개키로 전달됨
+  -> decrypt 하라면 서버의 비밀키가 필요함
+  : 도청을 하더라도 안전하다는 결론이 나옴
+  
