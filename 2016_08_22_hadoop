@@ -1,0 +1,64 @@
+빅데이터
+: 일반적인 DB SW 가 저장, 관리, 분석할 수 있는 범위를 초과하는 규모의 데이터
+: 다양한 종류의 대규모 데이터로부터 저렴한 비용으로 가치를 추출하고,
+    초고속 수집, 발굴, 분석을 지원하도록 고안된 차세대 기술 및 아키텍쳐
+  => 차세대 기술 : Hadoop
+
+비정형 데이터를 모아서, 저장, 분석하여 가치를 추출하는 시스템
+  Hadoop : 데이터 저장, 수집, 처리
+  Analytics (R) : 분석, 표현
+
+  adaptive security : 예측 보안 분석을 구현하는데 도움을 줌
+
+Hadoop : 대용량 단일 서버(X), 값싼 다중 서버(O)
+데이터를 서버에 분산 저장
+  => 실행 코드를 서버로 전송 : 분할 정복 (Divide and Conquer)
+    코드 : Map Reduce 를 기반으로한 프로그램
+
+HDFS : Hadoop Distributed File System = 분산 저장 시스템
+
+Name Node : 하둡의 최상위 서버 - 제어, 컨트롤하는 역할
+Data Node : 데이터를 저장, 처리 (데이터 블럭 : 128Mb)
+  3중화 되어 저장됨 (최소 3개로 복제되어 저장됨)
+
+Client : name node 에 데이터 저장 요청
+=> Name Node : 저장할 위치를 지정 후, client 에 주소를 제공
+  => client 가 첫번째 node 에 전체 데이터를 전송
+  => recursive : 본인 노드에 데이터를 저장 후 다음 노드에 남은 데이터를 전송
+      마지막 노드는 데이터를 저장하고 끝남
+
+Client : name node 에 데이터를 요청
+  => Name Node :
+    데이터 블럭 각각이 저장된 data node 를 client 에 가까운 data node 순서대로 매핑,
+    Client 에 리스트를 전송
+      (다중화가 진행되기 때문에 name node 에서 가장 가까운 블럭을 보내는 것이 이득)
+  => Client : 블럭 번호 순서대로 데이터를 읽어 들임
+
+Node Failure : 노드가 꺼짐 => name server 에 정상 작동 중이라는 신호를 주기적으로 보냄
+Communication Failure : 네트워크에 연결이 되지 않음 => 데이터를 수신 후에 ack 를 전송
+Data Corruption : 데이터가 손상됨 => parity, checksum 을 통한 확인
+
+writing err : name node 는 주기적으로 data node 를 업데이트함
+  => 에러가 난 data block 이 있을 경우, 항상 3중 상태를 유지할 수 있게 추가 복제를 진행함
+reading err : 에러가 나지 않은 data node 에서 데이터를 가져옴
+
+name node 가 죽으면 네트워크 전체가 죽음 => 2중화 3중화 시킴
+
+테이블에 쿼리를 전송 -> 검색
+Map Reduce : Key, value 기반의 프로그램
+  mapping 과 reduceing 의 두 단계로 나누어 실행됨
+  각 단계에서 mapper 와 reducer 라는 데이터 처리함수가 정의되어 있음
+
+  input 이 들어옴
+    => splitting : 데이터를 어떤 기준을 가지고 나눔
+    => mapping : mapper 함수를 통해 어떤 기준에 따라 key 와 value 를 만듬
+    => shuffling : map 을 어떠한 기준에 따라 다시 분배함
+    => reducing : map 을 reducer 함수를 통해 하나로 뭉침
+    => final result : reducing 결과물을 하나로 합침
+
+취약점 : NameNode 공격, fake node 의 혼동
+  기본적으로 NameNode 는 많이 오픈되어 있음
+    => 시스템 취약점을 통해 권한 획득이 가능해짐
+  fake node 나 name node 를 통해 데이터를 도청할 수 있음
+    => 데이터 권한 관리가 중요함
+    
