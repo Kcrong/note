@@ -1,0 +1,23 @@
+struct : default 접근 제한 권한이 public
+  구조체가 메모리에 할당될 때, 멤버들을 초기화해주지 않음
+class : default 접근 제한 권한이 private
+  클래스는 멤버들에 대한 생성자를 호출해줌 : 초기화의 가능성이 높아짐
+  class 생성자의 initial list 와, 대입 연산자를 통한 초기화의 차이
+    => initial list 의 경우 생성 즉시 초기화를 진행,
+      대입연산자의 경우 생성자를 호출 후에 대입 연산자를 통한 초기화 : 중복된 초기화 발생
+
+Thread Context : register 정보들
+  cpu 가 branch 를 트레이스함 : lastbranchrecords 가 가능할 것으로 보임
+
+Exception debug event : dwrodfirstchance - first chanace exception 인지 여부를 나타냄
+
+flush instruction cache : 인스트럭션 케쉬를 비움
+dbg_dexception_handler : 모든 프로그램은 default exception handler 를 가짐
+  dbg exception not handled 를 넘길 경우 default exception handler 가 호출됨
+  dbg exception handled  를 넘기는 것이 좋음
+
+context : thread 단위로 처리됨
+  register 정보가 담김 : 0xCC 일 경우 eip - 1 and resume
+  single step bp : eflags 레지스터의 tf 비트를 세팅함
+
+exception single step 에서 처리해줄 수 있음
