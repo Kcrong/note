@@ -1,0 +1,25 @@
+APT : Advanced Persistent Threat
+  기업들은 전반적인 부분에서 보안을 해야한다.
+  - 취약점을 찾는 것외에도 이를 어떻게 fix 할 것인지도 알아야 한다.
+
+예전에서는 인프라, 네트워크에 관해서만 보안함 ex) IPS
+현재는 그 영역이 점점더 넓어짐
+  SIEM : Security Information Event Management
+    로그가 들어오면 time base 의 정규화된 규칙을 만들어냄
+    => 패턴을 통한 공격 판단
+    => 관제로 notify 함
+
+  Netflix : FIDO Fully Integrated Defense Operation - 내부망에 초점을 맞춤
+  상관 검색 엔진을 만들어 자동으로 보안 위협을 차단
+
+Cloud
+  전통적인 보안은 방화벽을 설치해놓고 감시, 로그를 모아놓고 검사함
+  현대 Cloud 의 저장 장소가 다양하고, auto scailing cloud 의 경우,
+    모든 곳에 방화벽을 놓는 것이 가능치 않음
+  => 호스트 기반의 보안이 가능한가
+
+  Cloud Passage
+    : 로그를 cloud 로 보냄
+    => cloud 에서 siem 을 통한 공격 탐지 (기존의 siem)
+    + 컨트롤을 내림 = ban 을 먹이거나, 통신을 차단하거나 redirecting 하는 등
+    + 중앙 관제 시스템까지 가능 : cloud server 의 ip table 을 통한 firewall 통제 등

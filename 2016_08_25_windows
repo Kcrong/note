@@ -1,0 +1,23 @@
+create process debug info : 프로세스 생성시 반환되는 구조체
+  프로세스의 핸들, debuginfo 오프셋과 크기 등의 데이터가 저장되어 있음
+
+  MSDN GetFileNameFromHandle : 핸들러를 통해 파일의 풀 경로를 받아옴
+
+  _initial_bp : 프로세스 가장 처음에 박힌 bp
+  base_of_image : 이미지 베이스 (MZ...)
+
+프로세스 생성됬을 때 필요한 핸들들을 모아둬야함
+
+create thread debug info
+
+create process : flag = CREATE_SUSPENDED
+  프로세스를 생성하고 실행하지 않고 일시 정지 시킴
+  ntResumeThread, ntSuspendThread 를 통해 프로세스를 일시정지, 재시작할 수 있음
+  kernel 에서는 process 를 eprocess 구조체로 표현함
+    ntsuspendthread 를 통해 eprocess 의 thread 들을 순회하며 정지 시키면,
+    전체 thread 가 suspend 되면서, process 가 suspend 상태에 빠짐
+    이미 suspend 된 thread 를 다시 suspend 시키면,
+    eprocess 의 suspendcounter 가 증가하며,
+    ntresumethread 는 suspendcounter 을 줄이다가, 0일 떄 실제로 스레드를 재실행시킴
+
+  waitfordebugprocess 를 하지 않으면, debug event 가 발생한 후 정지됨
