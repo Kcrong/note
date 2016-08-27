@@ -1,0 +1,27 @@
+snort ? sourcefire 사에서 만든 ndis
+  실시간 traffic 분석, packet logging 용으로 적합
+  수많은 개발자들에 의해 rule 이 제공
+  다양한 os 를 지원
+  open source (GPL license)
+    국내 많은 업체들이 snort 를 몰래 사용함
+
+  performance 가 굉장함
+  snort 에 최적화 algorithm 이 굉장히 많이 들어가 있음
+    ex) aho-corasick (multi string), boyer-moore (single string)
+
+  multi-thread, multi-core 를 지원하지 않음
+
+suricata :
+  multi-core, multi-threading 지원 : gpu 하드웨어
+  snort rule 과 호환
+  lua 와 같은 script language 와 interface 지원
+    => 자원을 최대한 사용
+
+각각의 rule 에서 가장 긴 signiture 를 탐색 ex) Host: www.gilgil.net
+  => 가장 긴 signiture 을 상대로 aho-corasick 트리를 작성
+  => 가장 긴 signiture 를 통해 몇가지 rule 을 걸러냄
+    => 그 이후로는 sequencial search 를 진행
+
+  간혹, 가장 긴 패턴이 아닌,
+    다른 패턴을 통해 rule 을 설정하는 것이 효율적인 경우도 있음
+    => content 에 fast pattern; 을 붙여 aho-corasick 트리를 작성할 content 의 우선순위 결정
