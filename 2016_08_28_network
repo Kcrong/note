@@ -1,0 +1,19 @@
+대칭키 : 암복호화에 같은 키를 사용, 속도가 굉장히 빠름
+  Block cipher : 평문을 일정 길이 단위로 분할하여 암호화
+  Stream cipher : 1bit 씩 암호화함
+
+  Ceaser Cipher : 평문을 한칸씩 밀어서 암호화시킴 (ch + key) % 26
+  DES : 암호화 문장을 잘라서 대치 (permutation) 과 16 round 로 이루어진 암호화 시스템
+    plaintext -> .des(key) -> ciphertext
+    block size : 64bits : 8bytes 로 암호화됨
+    key size : 56bits + 8 parity bits
+    #rounds : 16
+
+    ECB : 데이터를 잘라 블럭별로 같은 키로 암호화함 -> 평문이 같은 블럭이면 암호화된 블럭도 같아짐
+      => 총체적인 윤곽이 정해져 있음
+      openssl enc -des-ecb -in {input} -out {output}
+
+    CBC Cipher Block Chaining : 첫번째 블럭에서 암호화된 결과가 두번째 블럭 암호화에 사용됨
+      => 평문이 같아도 이전 문장이 다르면 암호화된 블럭의 내용이 다름
+      => Block 이 연쇄적으로 암호화됨
+      : 결함 - 수신한 블럭 중 하나라도 손상되면, 뒷부분의 해독이 불가능함
