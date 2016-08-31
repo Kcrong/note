@@ -37,8 +37,8 @@
 30. - [X] network fin, rst
 31. - [X] lsusb -v implementation
 32. - [X] network zigbee vuln report
-33. - [ ] hadoop word count example result and report
-34. - [ ] send hook
+33. - [X] hadoop word count example result and report
+34. - [X] send hook
 
 ##study
 
