@@ -21,7 +21,7 @@ offensive security 에 대해 깊이는 있지만, 전체적 넓은 시야로 �
     배포 비용이 낮음
     주기적 업데이트
 
-  기존 클라우드 : basic kernel -> hyperbisor -> virtual machine
+  기존 클라우드 : basic kernel -> hypervisor -> virtual machine
     KVM, Xen, ESX 와 같은 하이퍼 바이져 위에 생성됨
     일반적인 가상머신은 각자의 독립된 운영체제의 개별 커널을 가짐
 
